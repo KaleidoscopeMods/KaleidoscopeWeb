@@ -781,3 +781,59 @@ footer { padding: 60px; text-align: center; opacity: 0.6; font-size: 0.85rem; }
 @media (max-width: 600px) {
     .site-title { font-size: 2rem; }
 }
+/* 移动端响应式适配 */
+@media (max-width: 768px) {
+    /* 1. 调整 3D 容器高度，防止第一屏内容重叠 */
+    .gallery-container {
+        height: 300px;
+        width: 100%;
+    }
+
+    /* 2. 核心：重置画廊卡片尺寸 */
+    .gallery-item {
+        width: 85vw;   /* 宽度改为屏幕宽度的 85% */
+        height: 48vw;  /* 按比例设置高度 */
+        margin-left: -42.5vw; /* 负边距为宽度的一半以保持居中 */
+        margin-top: -50px;
+    }
+
+    /* 3. 减小 3D 位移，防止左右两张卡片飞出屏幕 */
+    .gallery-item.next {
+        transform: translate3d(15%, 0, -100px) scale(0.85);
+        opacity: 0.4;
+    }
+
+    .gallery-item.prev {
+        transform: translate3d(-15%, 0, -100px) scale(0.85);
+        opacity: 0.4;
+    }
+
+    /* 4. 适配底部的文字信息栏 */
+    .item-info {
+        padding: 10px 15px;
+        flex-direction: column; /* 手机上文字和按钮上下堆叠 */
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .info-text h3 {
+        font-size: 1rem;
+    }
+
+    .info-text p {
+        display: none; /* 手机屏窄，建议隐藏副标题以节省空间 */
+    }
+
+    .detail-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        align-self: flex-end; /* 按钮靠右显示 */
+    }
+
+    /* 5. 调整标题间距 */
+    .section-main-title {
+        font-size: 1.8rem;
+        margin-bottom: 120px;
+        letter-spacing: 3px;
+    }
+}
