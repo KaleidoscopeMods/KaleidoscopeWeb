@@ -270,6 +270,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
+    margin-bottom: -32px;
 }
 .section-footer-hint i {
     animation: arrowBounce 2s infinite; 
