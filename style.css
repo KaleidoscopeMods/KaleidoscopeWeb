@@ -1,0 +1,782 @@
+/* --- 核心变量与基础样式 --- */
+:root {
+    --primary-purple: #9d8df1;
+    --accent-soft: #b8afff;
+    --text-main: #4a4a4a;
+    --card-bg: rgba(255, 255, 255, 0.65);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+html {
+    /* 强制纵向滚动吸附，mandatory 表示强力吸附 */
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+}
+
+head {
+    scroll-snap-align: start;
+}
+
+body {
+    background: white;
+}
+
+/* --- 背景幻灯片 --- */
+.slideshow-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    background: white;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.1);
+    animation: crossFade 18s linear infinite;
+}
+
+.white-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.45); 
+    z-index: 2;
+    pointer-events: none;
+}
+
+.slide:nth-child(1) { animation-delay: 0s; }
+.slide:nth-child(2) { animation-delay: 6s; }
+.slide:nth-child(3) { animation-delay: 12s; }
+
+.hero, section, footer {
+    position: relative;
+    z-index: 10; 
+}
+
+@keyframes crossFade {
+    0% { opacity: 0; }
+    5% { opacity: 1; }
+    33% { opacity: 1; }
+    38% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* --- 动画定义 --- */
+@keyframes heroEntrance {
+    0% { opacity: 0; transform: scale(0.9) translateY(20px); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes arrowBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes rotateMusic {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- Hero Section --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    animation: heroEntrance 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    scroll-snap-align: start;
+}
+
+.logo-placeholder {
+    width: 150px; height: 150px;
+    background: #000000; border-radius: 40px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    animation: float 4s ease-in-out infinite;
+    overflow: hidden;
+}
+
+.main-logo {
+    width: 80%; height: 80%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.site-title {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    color: #5e548e;
+    letter-spacing: 3px;
+    opacity: 0;
+    animation: heroEntrance 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+}
+
+.slogan {
+    font-size: 1.2rem;
+    color: #5e548e;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: heroEntrance 1.5s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #5e548e;
+    font-size: 0.9rem;
+    opacity: 0;
+    animation: heroEntrance 1.5s cubic-bezier(0.22, 1, 0.36, 1) 1.5s forwards;
+}
+
+.scroll-hint i {
+    animation: arrowBounce 2s infinite;
+}
+
+.scroll-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.scroll-hint:hover {
+    transform: translateX(-50%) scale(1.05);
+    transition: transform 0.3s ease;
+}
+/* --- 首页内容渐隐动画 --- */
+.hero-content {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-content.hidden {
+    opacity: 0;
+    transform: translateY(-50px);
+    pointer-events: none;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    background-color: white; 
+    color: var(--primary-purple);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: all 0.3s ease;
+    
+    /* 初始隐藏状态 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background-color: var(--primary-purple);
+    color: #ffffff;
+    transform: translateY(-5px);
+}
+
+.section-main-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 180px; /* 与下方图集的间距 */
+    letter-spacing: 6px;
+    width: fit-content;
+    padding: 12px 40px;
+    border-radius: 15px; /* 圆角大小 */
+    position: relative;
+    padding-bottom: 15px;
+    color: white; 
+    /*text-shadow: 0 2px 10px rgba(94, 84, 142, 0.5);*/
+    z-index: 10;
+    text-shadow: 
+        -1px -1px 0 #5e548e,  
+         1px -1px 0 #5e548e,
+        -1px  1px 0 #5e548e,
+         1px  1px 0 #5e548e;
+}
+
+.section-main-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-purple);
+    border-radius: 2px;
+    opacity: 0.8;
+}
+.section-footer-hint {
+    margin-top: 100px; /* 与上方控制器的间距 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #5e548e;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+.section-footer-hint i {
+    animation: arrowBounce 2s infinite; 
+}
+
+.section-footer-hint:hover {
+    transform: translateY(5px);
+    opacity: 0.8;
+}
+/* --- Gallery 基础样式 --- */
+.gallery-section {
+    height: 100vh;
+    scroll-margin-top: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px; 
+    padding: 60px 0;
+    padding-bottom: 80px; 
+    flex-direction: column; 
+}
+
+.gallery-container {
+    position: relative;
+    width: 80%;
+    height: 400px;
+}
+
+.gallery-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.gallery-item {
+    position: absolute;
+    width: 960px;
+    height: 540px;
+    left: 50%;
+    margin-left: -480px;
+    margin-top: -150px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+/*.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}*/
+
+/* --- 核心：Cover Flow 状态 --- */
+
+/* 中间这张 */
+.gallery-item.active {
+    opacity: 1;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+/* 右边这张 */
+.gallery-item.next {
+    opacity: 0.6;
+    transform: translate3d(250px, 0, 0) scale(0.8);
+    z-index: 10;
+    pointer-events: auto;
+}
+
+/* 左边这张 */
+.gallery-item.prev {
+    opacity: 0.6;
+    transform: translate3d(-250px, 0, 0) scale(0.8);
+    z-index: 10;
+    pointer-events: auto;
+}
+
+/* --- 2. 信息容器样式 (红框区域) --- */
+.item-info {
+    width: 100%;
+    padding: 25px 30px; /* 增加内边距 */
+    display: flex;
+    justify-content: space-between; /* 左右分栏 */
+    align-items: center; /* 垂直居中 */
+    
+    /* 核心：黑色半透明渐变遮罩 (从底部向上渐淡) */
+    background: rgba(0,0,0,0.8);
+    /*linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);*/
+    
+    /* 初始状态：信息在切换时可以有轻微浮现感 */
+    transition: all 0.5s ease;
+}
+
+/* --- 3. 焦点状态下的细节处理 --- */
+/* 当图片不是焦点（.next, .prev）时，压低信息容器的透明度 */
+.gallery-item:not(.active) .item-info {
+    opacity: 0.3;
+    filter: blur(1px); /* 可选：增加轻微模糊 */
+}
+
+/* --- 4. 文字与按钮样式 --- */
+.info-text h3 {
+    color: white;
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.info-text p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+.detail-btn {
+    padding: 10px 20px;
+    background: #ffffff; /* 亮白色 */
+    color: var(--primary-purple); 
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.detail-btn:hover {
+    background: var(--primary-purple);
+    color: white;
+    transform: translateX(3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(157, 141, 241, 0.4);
+}
+
+.gallery-controls {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    margin-top: 30px; 
+    width: 100%;
+}
+
+/* 切换按钮样式 */
+.gallery-nav {
+    position: static; 
+    transform: none; 
+    width: 45px;
+    height: 45px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.gallery-nav:hover {
+    background: var(--primary-purple);
+    color: white;
+}
+.prev-btn { left: -50px; }
+.next-btn { right: -50px; }
+
+.gallery-pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.pagination-line {
+    width: 25px;
+    height: 4px;
+    background: var(--primary-purple);
+    /*opacity: 0.3;*/
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.pagination-line.active {
+    opacity: 1;
+    width: 40px;
+    /*background: white;*/
+    position: relative;
+    overflow: hidden;
+}
+
+.pagination-line.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: white;
+    animation: progressFill 10s linear forwards;
+}
+
+@keyframes progressFill {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+#developers-section {
+    /* 当通过 ID 锚点跳转到此元素时，上方自动留出 100px 的空白 */
+    scroll-margin-top: -40px; 
+}
+/* --- 1. 开发者模块容器 --- */
+.dev-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 60px; 
+    padding: 100px 20px; 
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* --- 2. 基础卡片样式与放大逻辑 --- */
+.dev-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), z-index 0s;
+    z-index: 1;
+    bottom: 32px;
+}
+
+.avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 15px;
+    transition: transform 0.4s ease;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dev-name {
+    color: var(--text-main);
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: opacity 0.3s ease;
+}
+
+/* --- 核心：当卡片被“激活” (active) 时 --- */
+.dev-card.active {
+    transform: scale(1.3); /* 头像原位放大 */
+    z-index: 100; 
+}
+
+/* 放大时隐藏底下的文字，防止重叠 */
+.dev-card.active .dev-name {
+    opacity: 0;
+}
+
+/* --- 3. 信息气泡卡片 (对话框气泡样式) --- */
+.dev-info-bubble {
+    position: absolute;
+    bottom: calc(100% + 20px);
+    left: 50%;
+    /* 初始状态：略微向下偏移，透明度为 0 */
+    transform: translateX(-50%) translateY(10px); 
+    width: max-content;
+    min-width: 250px;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    
+    opacity: 0;
+    pointer-events: none; /* 隐藏时不可点击 */
+    
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    z-index: 100;
+}
+
+/* --- 核心：卡片激活时显示气泡 --- */
+.dev-card.active .dev-info-bubble {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* 允许点击内部链接 */
+    transform: translateX(-50%) translateY(0); /* 浮现到最终位置 */
+}
+
+/* --- 4. 气泡箭头 (向下对齐头像) --- */
+.bubble-arrow {
+    position: absolute;
+    bottom: -10px; /* 箭头突出气泡底部 10px */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white; /* 箭头颜色与气泡一致 */
+}
+
+/* --- 5. 气泡内部内容样式 --- */
+.bubble-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.bubble-name {
+    color: #5e548e; 
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.bubble-role {
+    color: var(--text-main);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.bubble-bili {
+    margin-top: 10px;
+    font-size: 1.8rem;
+    color: #00aeec; /* B站蓝 */
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.bubble-bili:hover {
+    color: #fb7299; /* 悬停变为 B站粉 */
+    transform: scale(1.1);
+}
+
+/* --- 6. 关闭按钮样式 (气泡内的 &times;) --- */
+.close-bubble {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.close-bubble:hover {
+    color: #5e548e;
+}
+
+/* --- 音乐控制 --- */
+.music-control {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--primary-purple);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.music-control.playing .music-icon {
+    animation: rotateMusic 3s linear infinite;
+}
+
+.music-control.muted {
+    opacity: 0.6;
+}
+
+/* --- 内容板块 --- */
+section {
+    min-height: 90vh;
+    padding: 100px 10vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+    color: #5e548e;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    width: 40px; height: 4px;
+    background: var(--primary-purple);
+    position: absolute;
+    bottom: -12px; left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.content-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    padding: 45px;
+    width: 100%;
+    max-width: 850px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 网格与列表 --- */
+.link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 850px;
+}
+
+.link-item {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.link-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(157, 141, 241, 0.2);
+}
+
+.link-item i { font-size: 2.2rem; color: var(--primary-purple); }
+
+.log-item {
+    border-left: 3px solid var(--accent-soft);
+    padding: 0 0 30px 25px;
+    position: relative;
+}
+
+.log-item::before {
+    content: '';
+    width: 12px; height: 12px;
+    background: var(--primary-purple);
+    border-radius: 50%;
+    position: absolute;
+    left: -8px; top: 5px;
+}
+
+.log-date { font-weight: bold; color: var(--primary-purple); margin-bottom: 5px; }
+
+footer { padding: 60px; text-align: center; opacity: 0.6; font-size: 0.85rem; }
+
+.beian-logo {
+    width:15px;
+    vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+    .site-title { font-size: 2rem; }
+}
