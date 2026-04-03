@@ -260,35 +260,68 @@ document.addEventListener('DOMContentLoaded', () => {
         behavior: 'smooth'
     });
 }
-    const targetSequence = "15243";
-    let currentSequence = "";
+    // --- 1. 定义全局序列变量 ---
+let currentSequence = "";
+const targetSequence = "15243"; // 你的目标点击序列
+
+// --- 2. 独立出触发彩蛋函数 (仅让头像滑出) ---
+function triggerEasterEgg() {
     const adminEgg = document.getElementById('hidden-admin');
+    if (adminEgg) {
+        adminEgg.classList.add('reveal'); // 仅仅滑出，不自动变大和显示气泡
+        console.log("站长已到达战场，点击头像查看详情！");
+    }
+}
 
-    document.querySelectorAll('.dev-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-        // 如果点击的是关闭按钮，不触发彩蛋逻辑
-        if (e.target.classList.contains('close-bubble')) return;
-
-        // 获取当前卡片的 index
-        const index = this.getAttribute('data-index');
+// --- 3. 统一监听所有头像卡片点击 (包括普通开发者) ---
+document.querySelectorAll('.dev-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+        // 如果点击的是气泡内部链接或图标，不关闭
+        if (e.target.closest('.bubble-content a, .bubble-bili i')) return;
         
-        // 如果这个卡片确实有 data-index（排除掉未来可能增加的非彩蛋成员）
+        // 排除掉气泡关闭按钮的原有点击逻辑 (防止冲突)
+        if (e.target.closest('.close-bubble')) return;
+
+        // --- A. 彩蛋序列检测逻辑 ---
+        const index = this.getAttribute('data-index');
         if (index) {
             currentSequence += index;
-            
+            // 保持最后5位
             if (currentSequence.length > 5) {
                 currentSequence = currentSequence.slice(-5);
-                }
+            }
+            // console.log("当前序列:", currentSequence); // 调试用
 
             if (currentSequence === targetSequence) {
                 triggerEasterEgg();
-                }
             }
-        });
-    });
+        }
 
-    function triggerEasterEgg() {
-        console.log("彩蛋激活！");
-        adminEgg.classList.add('active');
-    }
+        // --- B. 头像点击交互逻辑 (统一体验) ---
+        // 如果点击的是头像或名字 (普通或站长)
+        if (e.target.closest('.avatar-wrapper, .dev-name, .admin-avatar, .admin-name')) {
+            const isLoggedAdmin = this.id === 'hidden-admin'; // 判断是否点击的是站长
+
+            // 如果点击的是站长，且还没出来，不触发
+            if (isLoggedAdmin && !this.classList.contains('reveal')) return;
+
+            // 先关闭所有其他的气泡
+            document.querySelectorAll('.dev-card.active, #hidden-admin.active').forEach(c => {
+                if (c !== this) c.classList.remove('active');
+            });
+
+            // 切换当前卡片的 active 状态
+            this.classList.toggle('active');
+        }
+    });
+});
+
+// --- 4. 监听站长气泡内的关闭按钮 ---
+const adminCloseBtn = document.querySelector('#hidden-admin .close-bubble');
+if (adminCloseBtn) {
+    adminCloseBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // 阻止冒泡，防止触发卡片点击逻辑
+        document.getElementById('hidden-admin').classList.remove('active');
+    });
+}
 });

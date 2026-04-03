@@ -646,53 +646,73 @@ body {
     color: #5e548e;
 }
 
-/* 站长容器初始状态：隐藏在屏幕右侧外 */
-.admin-easter-egg {
+/* --- 1. 站长容器初始状态 (仅滑出) --- */
+#hidden-admin.admin-easter-egg {
     position: fixed;
-    right: -120px; /* 初始隐藏 */
+    right: -300px; /* 初始隐藏在右侧外 */
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(1); /* 垂直居中，初始缩放为 1 */
     display: flex;
     align-items: center;
-    transition: right 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 999;
+    transition: right 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                transform 0.4s ease; /* 增加缩放的过渡效果 */
+    z-index: 9999;
+    pointer-events: none; /* 初始禁止点击 */
 }
 
-/* 激活后的状态 */
-.admin-easter-egg.active {
-    right: 20px; /* 慢慢冒出来 */
+/* --- 2. 激活彩蛋后滑出 (使用 .reveal 类) --- */
+#hidden-admin.admin-easter-egg.reveal {
+    right: 20px; /* 滑动到可见位置 */
+    pointer-events: auto; /* 允许点击 */
 }
 
-/* 气泡卡片：位于头像左侧 */
-.popover-card {
+/* --- 3. 点击头像后变大一圈 (使用 .active 类) --- */
+#hidden-admin.admin-easter-egg.active {
+    /* 变大一圈，同时保持垂直居中 */
+    transform: translateY(-50%) scale(1.15); 
+}
+
+/* --- 4. 侧边气泡卡片：初始隐藏 --- */
+#hidden-admin .popover-card {
     background: white;
     border-radius: 15px;
     padding: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    margin-right: 15px; /* 与头像保持距离 */
+    margin-right: 20px; /* 与头像保持距离 */
     position: relative;
     width: 180px;
+    opacity: 0; /* 初始透明 */
+    visibility: hidden; /* 初始不可见 */
+    transform: translateX(20px); /* 初始向右偏移 */
+    transition: all 0.5s ease;
 }
 
-/* 气泡尖角：指向右侧头像 */
-.popover-arrow {
-    position: absolute;
-    right: -8px; /* 贴在卡片右边缘 */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid white; /* 向右的箭头 */
+/* --- 5. 变大后气泡显现 --- */
+#hidden-admin.admin-easter-egg.active .popover-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); /* 回到原位 */
 }
 
+/* --- 6. 头像本身样式调整 --- */
 .admin-avatar {
     width: 70px;
     height: 70px;
     border-radius: 50%;
     border: 3px solid white;
     box-shadow: 0 0 10px rgba(138, 107, 255, 0.5);
+    cursor: pointer; /* 鼠标悬停变手型 */
+    transition: transform 0.3s ease;
+}
+
+/* 气泡尖角和关闭按钮复用你之前的样式即可，只需要确保指向正确 */
+#hidden-admin .close-bubble {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #999;
 }
 
 /* --- 音乐控制 --- */
