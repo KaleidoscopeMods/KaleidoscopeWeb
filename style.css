@@ -646,6 +646,55 @@ body {
     color: #5e548e;
 }
 
+/* 站长容器初始状态：隐藏在屏幕右侧外 */
+.admin-easter-egg {
+    position: fixed;
+    right: -120px; /* 初始隐藏 */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    transition: right 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 999;
+}
+
+/* 激活后的状态 */
+.admin-easter-egg.active {
+    right: 20px; /* 慢慢冒出来 */
+}
+
+/* 气泡卡片：位于头像左侧 */
+.popover-card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-right: 15px; /* 与头像保持距离 */
+    position: relative;
+    width: 180px;
+}
+
+/* 气泡尖角：指向右侧头像 */
+.popover-arrow {
+    position: absolute;
+    right: -8px; /* 贴在卡片右边缘 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 10px solid white; /* 向右的箭头 */
+}
+
+.admin-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(138, 107, 255, 0.5);
+}
+
 /* --- 音乐控制 --- */
 .music-control {
     position: fixed;

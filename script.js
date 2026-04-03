@@ -259,5 +259,37 @@ document.addEventListener('DOMContentLoaded', () => {
         top: targetPosition - offset,
         behavior: 'smooth'
     });
+    
+    const targetSequence = "15243";
+    let currentSequence = "";
+    const adminEgg = document.getElementById('hidden-admin');
+
+    document.querySelectorAll('.dev-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+        // 如果点击的是关闭按钮，不触发彩蛋逻辑
+        if (e.target.classList.contains('close-bubble')) return;
+
+        // 获取当前卡片的 index
+        const index = this.getAttribute('data-index');
+        
+        // 如果这个卡片确实有 data-index（排除掉未来可能增加的非彩蛋成员）
+        if (index) {
+            currentSequence += index;
+            
+            if (currentSequence.length > 5) {
+                currentSequence = currentSequence.slice(-5);
+                }
+
+            if (currentSequence === targetSequence) {
+                triggerEasterEgg();
+                }
+            }
+        });
+    });
+
+    function triggerEasterEgg() {
+        console.log("彩蛋激活！");
+        adminEgg.classList.add('active');
+    }
 }
 });
