@@ -646,62 +646,6 @@ body {
     color: #5e548e;
 }
 
-/* --- 站长彩蛋基础状态 --- */
-#hidden-admin.admin-easter-egg {
-    position: fixed;
-    right: -200px; /* 初始彻底隐藏在屏幕外 */
-    top: 50%;
-    transform: translateY(-50%) scale(1);
-    display: flex;
-    align-items: center;
-    transition: right 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                transform 0.4s ease;
-    z-index: 9999;
-    pointer-events: none;
-}
-
-/* --- 触发序列后滑出 --- */
-#hidden-admin.reveal {
-    right: 20px;
-    pointer-events: auto;
-}
-
-/* --- 点击头像后变大一圈 --- */
-#hidden-admin.active {
-    transform: translateY(-50%) scale(1.15);
-}
-
-/* --- 站长专属左侧气泡 --- */
-#hidden-admin .dev-info-bubble {
-    top: 50%;
-    left: auto;
-    right: 110%; /* 关键：定位在头像左侧 */
-    transform: translateY(-50%) translateX(20px);
-    bottom: auto;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-    width: 180px;
-}
-
-/* --- 气泡尖角指向右侧头像 --- */
-#hidden-admin .bubble-arrow {
-    top: 50%;
-    left: auto;
-    right: -10px;
-    bottom: auto;
-    transform: translateY(-50%);
-    border-width: 8px 0 8px 10px;
-    border-color: transparent transparent transparent rgba(255, 255, 255, 0.95);
-}
-
-/* --- 激活展示气泡 --- */
-#hidden-admin.active .dev-info-bubble {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-50%) translateX(0);
-}
-
 /* --- 音乐控制 --- */
 .music-control {
     position: fixed;
