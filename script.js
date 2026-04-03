@@ -260,68 +260,59 @@ document.addEventListener('DOMContentLoaded', () => {
         behavior: 'smooth'
     });
 }
-    // --- 1. 定义全局序列变量 ---
-let currentSequence = "";
-const targetSequence = "15243"; // 你的目标点击序列
-
-// --- 2. 独立出触发彩蛋函数 (仅让头像滑出) ---
-function triggerEasterEgg() {
-    const adminEgg = document.getElementById('hidden-admin');
-    if (adminEgg) {
-        adminEgg.classList.add('reveal'); // 仅仅滑出，不自动变大和显示气泡
-        console.log("站长已到达战场，点击头像查看详情！");
-    }
-}
-
-// --- 3. 统一监听所有头像卡片点击 (包括普通开发者) ---
-document.querySelectorAll('.dev-card').forEach(card => {
-    card.addEventListener('click', function(e) {
-        // 如果点击的是气泡内部链接或图标，不关闭
-        if (e.target.closest('.bubble-content a, .bubble-bili i')) return;
-        
-        // 排除掉气泡关闭按钮的原有点击逻辑 (防止冲突)
-        if (e.target.closest('.close-bubble')) return;
-
-        // --- A. 彩蛋序列检测逻辑 ---
-        const index = this.getAttribute('data-index');
-        if (index) {
-            currentSequence += index;
-            // 保持最后5位
-            if (currentSequence.length > 5) {
-                currentSequence = currentSequence.slice(-5);
-            }
-            // console.log("当前序列:", currentSequence); // 调试用
-
-            if (currentSequence === targetSequence) {
-                triggerEasterEgg();
-            }
-        }
-
-        // --- B. 头像点击交互逻辑 (统一体验) ---
-        // 如果点击的是头像或名字 (普通或站长)
-        if (e.target.closest('.avatar-wrapper, .dev-name, .admin-avatar, .admin-name')) {
-            const isLoggedAdmin = this.id === 'hidden-admin'; // 判断是否点击的是站长
-
-            // 如果点击的是站长，且还没出来，不触发
-            if (isLoggedAdmin && !this.classList.contains('reveal')) return;
-
-            // 先关闭所有其他的气泡
-            document.querySelectorAll('.dev-card.active, #hidden-admin.active').forEach(c => {
-                if (c !== this) c.classList.remove('active');
-            });
-
-            // 切换当前卡片的 active 状态
-            this.classList.toggle('active');
-        }
-    });
 });
 
-// --- 4. 监听站长气泡内的关闭按钮 ---
-const adminCloseBtn = document.querySelector('#hidden-admin .close-bubble');
-if (adminCloseBtn) {
-    adminCloseBtn.addEventListener('click', function(e) {
-        e.stopPropagation(); // 阻止冒泡，防止触发卡片点击逻辑
-        document.getElementById('hidden-admin').classList.remove('active');
+// --- 彩蛋逻辑全局变量 ---
+let currentSequence = "";
+const targetSequence = "15243";
+
+document.addEventListener('DOMContentLoaded', () => {
+    const adminEgg = document.getElementById('hidden-admin');
+
+    // 监听所有开发卡片（包含普通成员和站长）
+    document.querySelectorAll('.dev-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // 1. 如果点到 B 站链接或关闭按钮，不走切换逻辑
+            if (e.target.closest('.bubble-bili') || e.target.closest('.close-bubble')) {
+                if (e.target.closest('.close-bubble')) {
+                    this.classList.remove('active');
+                }
+                return;
+            }
+
+            // 2. 彩蛋序列检测
+            const index = this.getAttribute('data-index');
+            if (index) {
+                currentSequence += index;
+                if (currentSequence.length > 5) currentSequence = currentSequence.slice(-5);
+                
+                if (currentSequence === targetSequence) {
+                    if (adminEgg) adminEgg.classList.add('reveal');
+                    console.log("Easter Egg Triggered!");
+                }
+            }
+
+            // 3. 统一的头像点击变大/气泡逻辑
+            const isSelfActive = this.classList.contains('active');
+            
+            // 关闭其他所有卡片（包括普通成员和站长）
+            document.querySelectorAll('.dev-card').forEach(c => c.classList.remove('active'));
+            
+            // 如果点击的是已经滑出的站长，或者是普通成员，则切换当前状态
+            if (this.id === 'hidden-admin') {
+                if (this.classList.contains('reveal')) {
+                    if (!isSelfActive) this.classList.add('active');
+                }
+            } else {
+                if (!isSelfActive) this.classList.add('active');
+            }
+        });
     });
-}
+
+    // 点击页面其他地方关闭所有气泡
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dev-card')) {
+            document.querySelectorAll('.dev-card').forEach(c => c.classList.remove('active'));
+        }
+    });
 });
