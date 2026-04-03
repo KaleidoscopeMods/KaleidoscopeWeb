@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         top: targetPosition - offset,
         behavior: 'smooth'
     });
-    
+}
     const targetSequence = "15243";
     let currentSequence = "";
     const adminEgg = document.getElementById('hidden-admin');
@@ -291,5 +291,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("彩蛋激活！");
         adminEgg.classList.add('active');
     }
-}
 });
