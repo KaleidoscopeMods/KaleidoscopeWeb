@@ -646,6 +646,113 @@ body {
     color: #5e548e;
 }
 
+/* --- 站长卡片容器：固定在右侧，初始隐藏在屏幕外 --- */  
+.secret-dev-wrapper {  
+    position: fixed;  
+    right: 30px;  
+    top: 50%;  
+    /* 初始状态：向右平移自身宽度+额外距离，完全隐藏在屏幕右侧外 */  
+    transform: translateY(-50%) translateX(calc(100% + 60px));  
+    z-index: 500;  
+    /* 缓慢、弹性的滑入动画 */  
+    transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);  
+    pointer-events: none; /* 隐藏时不可交互 */  
+}  
+  
+/* 触发彩蛋后：滑入到可见位置 */  
+.secret-dev-wrapper.revealed {  
+    transform: translateY(-50%) translateX(0);  
+    pointer-events: auto; /* 可见后允许交互 */  
+}  
+  
+/* --- 站长头像特殊样式：紫色发光边框 --- */  
+#dev-card-secret .avatar-wrapper {  
+    border-color: var(--primary-purple);  
+    box-shadow: 0 0 15px rgba(157, 141, 241, 0.4);  
+    animation: secretGlow 2s ease-in-out infinite alternate;  
+}  
+  
+@keyframes secretGlow {  
+    0%   { box-shadow: 0 0 10px rgba(157, 141, 241, 0.3); }  
+    100% { box-shadow: 0 0 30px rgba(157, 141, 241, 0.7), 0 0 60px rgba(157, 141, 241, 0.2); }  
+}  
+  
+/* --- 覆盖气泡位置：改为从左侧弹出（防止被右边缘遮挡） --- */  
+#dev-card-secret .dev-info-bubble {  
+    /* 重置默认的顶部定位 */  
+    bottom: auto;  
+    left: auto;  
+    /* 改为：垂直居中，水平定位在头像左侧 */  
+    top: 50%;  
+    right: calc(100% + 25px);  
+    /* 初始状态：略微向右偏移（即朝头像方向），配合透明度做出"从左冒出"的效果 */  
+    transform: translateY(-50%) translateX(15px);  
+}  
+  
+/* 激活时的最终位置 */  
+#dev-card-secret.active .dev-info-bubble {  
+    opacity: 1;  
+    visibility: visible;  
+    pointer-events: auto;  
+    transform: translateY(-50%) translateX(0);  
+}  
+  
+/* 隐藏默认的底部朝下箭头 */  
+#dev-card-secret .bubble-arrow {  
+    display: none;  
+}  
+  
+/* 新的箭头：朝右指向头像 */  
+#dev-card-secret .bubble-arrow-right {  
+    position: absolute;  
+    right: -10px;  
+    top: 50%;  
+    transform: translateY(-50%);  
+    width: 0;  
+    height: 0;  
+    border-top: 12px solid transparent;  
+    border-bottom: 12px solid transparent;  
+    border-left: 12px solid white; /* 箭头颜色与气泡背景一致 */  
+}  
+  
+/* --- 序列反馈动画：点击正确时头像轻微抖动提示 --- */  
+@keyframes secretHint {  
+    0%, 100% { transform: scale(1); }  
+    50%      { transform: scale(1.08); }  
+}  
+  
+.dev-card.secret-hint {  
+    animation: secretHint 0.3s ease;  
+}  
+  
+/* --- 彩蛋触发时的庆祝粒子效果（可选） --- */  
+@keyframes celebratePop {  
+    0%   { opacity: 1; transform: translateY(-50%) translateX(calc(100% + 60px)) scale(0.5); }  
+    60%  { transform: translateY(-50%) translateX(-10px) scale(1.05); }  
+    100% { transform: translateY(-50%) translateX(0) scale(1); }  
+}  
+  
+.secret-dev-wrapper.revealed {  
+    animation: celebratePop 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;  
+}  
+  
+/* --- 移动端适配 --- */  
+@media (max-width: 768px) {  
+    .secret-dev-wrapper {  
+        right: 15px;  
+    }  
+  
+    #dev-card-secret .dev-info-bubble {  
+        min-width: 200px;  
+        padding: 18px;  
+    }  
+  
+    #dev-card-secret .avatar-wrapper {  
+        width: 90px;  
+        height: 90px;  
+    }  
+}  
+
 /* --- 音乐控制 --- */
 .music-control {
     position: fixed;

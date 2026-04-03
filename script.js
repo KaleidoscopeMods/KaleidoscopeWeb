@@ -260,4 +260,60 @@ document.addEventListener('DOMContentLoaded', () => {
         behavior: 'smooth'
     });
 }
+
+    const SECRET_SEQUENCE = [1, 5, 2, 4, 3]; // 密码序列  
+    let secretProgress = 0;                    // 当前进度  
+    let secretRevealed = false;                // 是否已触发  
+    const secretWrapper = document.getElementById('secret-dev-wrapper');  
+    const secretCard = document.getElementById('dev-card-secret');  
+  
+    // --- 监听五位开发者头像的点击，追踪序列 ---  
+    devCards.forEach(card => {  
+        card.addEventListener('click', () => {  
+            // 如果已经触发过彩蛋，则不再追踪  
+            if (secretRevealed) return;  
+  
+            const clickedIndex = parseInt(card.dataset.index);  
+  
+            // 忽略非 1-5 的卡片（包括站长卡片 data-index=6）  
+            if (isNaN(clickedIndex) || clickedIndex < 1 || clickedIndex > 5) return;  
+  
+            if (clickedIndex === SECRET_SEQUENCE[secretProgress]) {  
+                // ✅ 点击正确！推进序列  
+                secretProgress++;  
+  
+                // 给正确的卡片加一个轻微的视觉反馈  
+                card.classList.add('secret-hint');  
+                setTimeout(() => card.classList.remove('secret-hint'), 400);  
+  
+                console.log(`🔑 彩蛋进度: ${secretProgress}/${SECRET_SEQUENCE.length}`);  
+  
+                // 🎉 序列完成！触发彩蛋！  
+                if (secretProgress === SECRET_SEQUENCE.length) {  
+                    secretRevealed = true;  
+                    if (secretWrapper) {  
+                        secretWrapper.classList.add('revealed');  
+                        console.log('🎉 彩蛋触发！站长驾到！');  
+                    }  
+                }  
+            } else if (clickedIndex === SECRET_SEQUENCE[0]) {  
+                // 点的是序列第一个元素，重新开始计数  
+                secretProgress = 1;  
+                card.classList.add('secret-hint');  
+                setTimeout(() => card.classList.remove('secret-hint'), 400);  
+            } else {  
+                // ❌ 点错了，重置进度  
+                secretProgress = 0;  
+            }  
+        });  
+    });  
+  
+    // --- 站长卡片的气泡交互 ---  
+    // （由于站长卡片也是 .dev-card，上面已有的通用 click handler 会自动处理气泡的显示/隐藏）  
+    // 这里只需要额外处理：点击页面空白区域时也要关闭站长气泡  
+    document.addEventListener('click', (e) => {  
+        if (secretCard && !e.target.closest('#dev-card-secret') && !e.target.closest('.dev-card')) {  
+            secretCard.classList.remove('active');  
+        }  
+    });
 });
