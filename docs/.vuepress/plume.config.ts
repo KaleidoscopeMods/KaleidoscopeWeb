@@ -18,12 +18,12 @@ import { enNavbar, zhNavbar } from './navbar'
  * @see https://theme-plume.vuejs.press/config/theme/
  */
 export default defineThemeConfig({
-  logo: 'https://theme-plume.vuejs.press/plume.png',
+  logo: '/favicon.ico',
 
   appearance: true,  // 配置 深色模式
 
   social: [
-    { icon: 'github', link: '/' },
+    { icon: 'github', link: 'https://github.com/KaleidoscopeMods' },
   ],
   // navbarSocialInclude: ['github'], // 允许显示在导航栏的 social 社交链接
   // aside: true, // 页内侧边栏， 默认显示在右侧
@@ -58,8 +58,8 @@ export default defineThemeConfig({
        * @see https://theme-plume.vuejs.press/config/theme/#profile
        */
       profile: {
-        avatar: 'https://theme-plume.vuejs.press/plume.png',
-        name: '森罗物语官方网站',
+        avatar: '/favicon.ico',
+        name: '森罗物语官方文档',
         description: '为世界添加一抹奇幻色彩！',
         // circle: true,
         // location: '',
@@ -85,9 +85,9 @@ export default defineThemeConfig({
        * @see https://theme-plume.vuejs.press/config/theme/#profile
        */
       profile: {
-        avatar: 'https://theme-plume.vuejs.press/plume.png',
-        name: '森罗物语官方网站',
-        description: '为世界添加一抹奇幻色彩！',
+        avatar: '/favicon.ico',
+        name: 'Kaleidoscopedia',
+        description: 'Add a touch of fantasy to the world!',
         // circle: true,
         // location: '',
         // organization: '',

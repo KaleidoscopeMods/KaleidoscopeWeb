@@ -18,14 +18,14 @@ export default defineUserConfig({
   lang: 'zh-CN',
   locales: {
     '/': {
-      title: '森罗物语官方网站',
+      title: '森罗物语官方文档',
       lang: 'zh-CN',
       description: '为世界添加一抹奇幻色彩！',
     },
     '/en/': {
-      title: '森罗物语官方网站',
+      title: 'Kaleidoscopedia',
       lang: 'en-US',
-      description: '为世界添加一抹奇幻色彩！',
+      description: 'Add a touch of fantasy to the world!',
     },
   },
 
