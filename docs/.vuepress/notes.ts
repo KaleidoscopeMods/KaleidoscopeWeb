@@ -11,15 +11,16 @@ const zhNote = defineNoteConfig({
             collapsed: false,
             icon: 'carbon:idea',
             items: [
-                "简介",
+                '简介',
             ],
         },
         {
             text: '厨房',
             collapsed: false,
             icon: 'mdi:cook',
+            prefix: '厨房',
             items: [
-                "厨房简介",
+                '厨房简介',
             ],
         },
     ],
@@ -46,9 +47,10 @@ const enNote = defineNoteConfig({
             ],
         },
         {
-            text: '厨房',
+            text: 'Cookery',
             collapsed: false,
             icon: 'mdi:cook',
+            prefix: 'Cookery',
             items: [
                 "Cookery Introduction",
             ],
