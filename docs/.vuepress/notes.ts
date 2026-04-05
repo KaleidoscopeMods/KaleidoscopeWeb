@@ -19,7 +19,7 @@ const zhNote = defineNoteConfig({
             collapsed: false,
             icon: 'mdi:cook',
             items: [
-                "简介",
+                "厨房简介",
             ],
         },
     ],
@@ -50,7 +50,7 @@ const enNote = defineNoteConfig({
             collapsed: false,
             icon: 'mdi:cook',
             items: [
-                "Introduction",
+                "Cookery Introduction",
             ],
         },
     ],
