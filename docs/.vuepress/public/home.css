@@ -657,12 +657,14 @@ body {
     /* 缓慢、弹性的滑入动画 */  
     transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);  
     pointer-events: none; /* 隐藏时不可交互 */  
+    opacity: 0;
 }  
   
 /* 触发彩蛋后：滑入到可见位置 */  
 .secret-dev-wrapper.revealed {  
     transform: translateY(-50%) translateX(0);  
-    pointer-events: auto; /* 可见后允许交互 */  
+    pointer-events: auto; /* 可见后允许交互 */
+    opacity: 1;  
 }  
   
 /* --- 站长头像特殊样式：紫色发光边框 --- */  
