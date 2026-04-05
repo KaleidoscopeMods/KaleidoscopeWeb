@@ -19,7 +19,7 @@ const zhNote = defineNoteConfig({
             collapsed: false,
             icon: 'mdi:cook',
             items: [
-                "测试",
+                "简介",
             ],
         },
     ],
@@ -29,4 +29,35 @@ export const zhNotes = defineNotesConfig({
     dir: 'notes',
     link: '/',
     notes: [zhNote],
+})
+
+/* =================== locale: en-US ======================= */
+
+const enNote = defineNoteConfig({
+    dir: 'wiki',
+    link: '/wiki/',
+    sidebar: [
+        {
+            text: 'Getting Started',
+            collapsed: false,
+            icon: 'carbon:idea',
+            items: [
+                "Introduction",
+            ],
+        },
+        {
+            text: '厨房',
+            collapsed: false,
+            icon: 'mdi:cook',
+            items: [
+                "Introduction",
+            ],
+        },
+    ],
+})
+
+export const enNotes = defineNotesConfig({
+    dir: 'en/notes',
+    link: '/en/',
+    notes: [enNote],
 })
