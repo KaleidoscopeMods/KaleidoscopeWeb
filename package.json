@@ -8,7 +8,6 @@
   "license": "MIT",
   "scripts": {
     "docs:dev": "vuepress dev docs/docs",
-    "docs:build": "vuepress build docs/docs --dest ./public/wiki",
     "docs:dev-clean": "vuepress dev docs/docs --clean-cache --clean-temp",
     "docs:preview": "http-server public",
     "vp-update": "pnpm dlx vp-update"
