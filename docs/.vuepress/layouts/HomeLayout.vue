@@ -1,0 +1,239 @@
+<template>
+  <div class="home-root">
+
+    <button id="back-to-top" class="back-to-top" title="回到顶部">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <div class="slideshow-bg">
+      <div class="slide" style="background-image: url('/image/backgrounds/森罗wiki背景.avif');"></div>
+      <div class="slide" style="background-image: url('/image/backgrounds/森罗物语：酒馆.avif');"></div>
+      <div class="slide" style="background-image: url('/image/backgrounds/森罗物语：玩偶.avif');"></div>
+      <div class="white-overlay"></div>
+    </div>
+
+    <audio id="bgm" loop></audio>
+
+    <div id="music-control" class="music-control">
+      <div class="music-icon"><i class="fas fa-music"></i></div>
+      <span class="music-text">BGM: ON</span>
+    </div>
+
+    <header class="hero">
+      <div class="logo-placeholder">
+        <img src="/image/森罗logo.avif" alt="森罗物语 Logo" class="main-logo">
+      </div>
+      <h1 class="site-title">森罗物语</h1>
+      <p class="slogan">为世界添加一抹奇幻色彩！</p>
+      <div class="scroll-hint" @click="scrollTo('gallery')">
+        <span>往下滚动/点击此处以查看更多</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </header>
+
+    <section id="gallery" class="gallery-section">
+      <h2 class="section-main-title">模组概况</h2>
+      <div class="gallery-container">
+        <div class="gallery-wrapper">
+          <div class="gallery-item active" style="background-image: url('/image/backgrounds/森罗物语：厨房.avif');">
+            <div class="item-info">
+              <div class="info-text">
+                <h3>森罗物语：厨房</h3>
+                <p>MC养老怎么能少得了做饭呢？</p>
+              </div>
+              <a href="https://www.bilibili.com/video/BV1GJ411x7h7" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="gallery-item" style="background-image: url('/image/backgrounds/森罗物语：酒馆.avif');">
+            <div class="item-info">
+              <div class="info-text">
+                <h3>森罗物语：酒馆</h3>
+                <p>MC养老怎么能少得了酿酒呢？</p>
+              </div>
+              <a href="https://www.bilibili.com/video/BV1GJ411x7h7" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="gallery-item" style="background-image: url('/image/backgrounds/森罗物语：玩偶.avif');">
+            <div class="item-info">
+              <div class="info-text">
+                <h3>森罗物语：玩偶</h3>
+                <p>精美的玩偶！</p>
+              </div>
+              <a href="https://www.bilibili.com/video/BV1GJ411x7h7" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="gallery-controls">
+          <button class="gallery-nav prev-btn"><i class="fas fa-chevron-left"></i></button>
+          <div class="gallery-pagination" id="gallery-pagination"></div>
+          <button class="gallery-nav next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="section-footer-hint reveal" @click="scrollTo('developers-section')">
+        <span>往下滚动 / 点击此处以查看更多</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </section>
+
+    <section id="developers-section" class="reveal">
+      <h2 class="section-main-title">作者与相关开发者</h2>
+      <div class="dev-container">
+        <div class="dev-card" id="dev-card-channel" data-index="1">
+          <div class="avatar-wrapper">
+            <img src="/image/devs/森罗物语channel.avif" alt="森罗物语channel">
+          </div>
+          <span class="dev-name">森罗物语channel</span>
+          <div class="dev-info-bubble">
+            <span class="close-bubble">&times;</span>
+            <div class="bubble-arrow"></div>
+            <div class="bubble-content">
+              <h3 class="bubble-name">森罗物语channel</h3>
+              <p class="bubble-role">官方账号</p>
+              <a class="bubble-bili" href="https://space.bilibili.com/3546836707051710" target="_blank"><i class="fab fa-bilibili"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="dev-card" id="dev-card-ysbb" data-index="2">
+          <div class="avatar-wrapper">
+            <img src="/image/devs/药水棒冰.avif" alt="药水棒冰">
+          </div>
+          <span class="dev-name">药水棒冰</span>
+          <div class="dev-info-bubble">
+            <span class="close-bubble">&times;</span>
+            <div class="bubble-arrow"></div>
+            <div class="bubble-content">
+              <h3 class="bubble-name">药水棒冰</h3>
+              <p class="bubble-role">项目发起人/美术设计</p>
+              <a class="bubble-bili" href="https://space.bilibili.com/512174141" target="_blank"><i class="fab fa-bilibili"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="dev-card" id="dev-card-943" data-index="3">
+          <div class="avatar-wrapper">
+            <img src="/image/devs/酒石酸菌.avif" alt="酒石酸菌">
+          </div>
+          <span class="dev-name">酒石酸菌</span>
+          <div class="dev-info-bubble">
+            <span class="close-bubble">&times;</span>
+            <div class="bubble-arrow"></div>
+            <div class="bubble-content">
+              <h3 class="bubble-name">酒石酸菌</h3>
+              <p class="bubble-role">核心开发/架构设计</p>
+              <a class="bubble-bili" href="https://space.bilibili.com/4435845" target="_blank"><i class="fab fa-bilibili"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="dev-card" id="dev-card-CR_019" data-index="4">
+          <div class="avatar-wrapper">
+            <img src="/image/devs/CR_019.avif" alt="CR_019">
+          </div>
+          <span class="dev-name">CR_019</span>
+          <div class="dev-info-bubble">
+            <span class="close-bubble">&times;</span>
+            <div class="bubble-arrow"></div>
+            <div class="bubble-content">
+              <h3 class="bubble-name">CR_019</h3>
+              <p class="bubble-role">数据包开发</p>
+              <a class="bubble-bili" href="https://space.bilibili.com/85292644" target="_blank"><i class="fab fa-bilibili"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="dev-card" id="dev-card-marisa" data-index="5">
+          <div class="avatar-wrapper">
+            <img src="/image/devs/金发小女孩.avif" alt="金发小女孩">
+          </div>
+          <span class="dev-name">金发小女孩</span>
+          <div class="dev-info-bubble">
+            <span class="close-bubble">&times;</span>
+            <div class="bubble-arrow"></div>
+            <div class="bubble-content">
+              <h3 class="bubble-name">金发小女孩</h3>
+              <p class="bubble-role">核心开发</p>
+              <a class="bubble-bili" href="https://space.bilibili.com/3546632366852118" target="_blank"><i class="fab fa-bilibili"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="secret-dev-wrapper" id="secret-dev-wrapper">
+      <div class="dev-card" id="dev-card-secret" data-index="6">
+        <div class="avatar-wrapper">
+          <img src="/image/devs/齐光.avif" alt="齐光">
+        </div>
+        <span class="dev-name">齐光</span>
+        <div class="dev-info-bubble">
+          <span class="close-bubble">&times;</span>
+          <div class="bubble-arrow"></div>
+          <div class="bubble-arrow-right"></div>
+          <div class="bubble-content">
+            <h3 class="bubble-name">齐光</h3>
+            <p class="bubble-role">本站站长 / 网站开发</p>
+            <a class="bubble-bili" href="https://space.bilibili.com/13015033" target="_blank"><i class="fab fa-bilibili"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025-2026 森罗工作室. All Rights Reserved.</p>
+    </footer>
+
+  </div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue'
+
+// 平滑滚动辅助函数
+function scrollTo(id: string) {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+// 用于清理注入的元素
+let injectedLinks: HTMLElement[] = []
+let injectedScript: HTMLElement | null = null
+
+onMounted(() => {
+  // 注入外部字体和图标
+  const externalLinks = [
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+  ]
+  externalLinks.forEach(href => {
+    if (!document.querySelector(`link[href="${href}"]`)) {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = href
+      document.head.appendChild(link)
+      injectedLinks.push(link)
+    }
+  })
+
+  // 注入你自己的 CSS
+  if (!document.querySelector('link[href="/home.css"]')) {
+    const homeStyle = document.createElement('link')
+    homeStyle.rel = 'stylesheet'
+    homeStyle.href = '/home.css'
+    document.head.appendChild(homeStyle)
+    injectedLinks.push(homeStyle)
+  }
+
+  // 注入你自己的 JS（等 DOM 就绪后再加载）
+  const script = document.createElement('script')
+  script.src = '/home.js'
+  document.body.appendChild(script)
+  injectedScript = script
+})
+
+onBeforeUnmount(() => {
+  // 离开首页时清理，防止 CSS 污染其他页面
+  injectedLinks.forEach(el => el.remove())
+  injectedLinks = []
+  if (injectedScript) {
+    injectedScript.remove()
+    injectedScript = null
+  }
+})
+</script>
