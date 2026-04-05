@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initHomePage() {
     // === 1. 基础变量获取 ===
     const bgm = document.getElementById('bgm');
     const musicBtn = document.getElementById('music-control');
@@ -316,4 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
             secretCard.classList.remove('active');  
         }  
     });
-});
+}
+
+// 暴露给外部调用
+window.__initHomePage = initHomePage;

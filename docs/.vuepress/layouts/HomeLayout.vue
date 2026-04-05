@@ -223,6 +223,11 @@ onMounted(() => {
   // 注入你自己的 JS（等 DOM 就绪后再加载）
   const script = document.createElement('script')
   script.src = '/home.js'
+  script.onload = () => {
+    if (window.__initHomePage) {
+      window.__initHomePage()
+    }
+  }
   document.body.appendChild(script)
   injectedScript = script
 })
