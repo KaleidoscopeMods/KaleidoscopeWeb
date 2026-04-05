@@ -33,7 +33,7 @@ jobs:
       # 安装依赖
       # Install dependencies
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
 
       # 运行构建脚本
