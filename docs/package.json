@@ -6,11 +6,12 @@
   "packageManager": "pnpm@10.33.0",
   "author": "PurpleComet1793 <purplecomet234@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "docs:dev": "vuepress dev docs/docs",
-    "docs:dev-clean": "vuepress dev docs/docs --clean-cache --clean-temp",
-    "docs:preview": "http-server public",
-    "vp-update": "pnpm dlx vp-update"
+   "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
+    "docs:build": "vuepress build docs --clean-cache --clean-temp",
+    "docs:preview": "http-server docs/.vuepress/dist",
+    "vp-update": "npx vp-update"
   },
   "devDependencies": {
     "@vuepress/bundler-vite": "2.0.0-rc.28",
