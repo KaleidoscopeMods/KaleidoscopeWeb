@@ -25,6 +25,7 @@
       </div>
       <h1 class="site-title">森罗物语</h1>
       <p class="slogan">为世界添加一抹奇幻色彩！</p>
+      <a href="/wiki/intro" class="quick-start-btn">快速开始 <i class="fas fa-arrow-right"></i></a>
       <div class="scroll-hint" @click="scrollTo('gallery')">
         <span>往下滚动/点击此处以查看更多</span>
         <i class="fas fa-chevron-down"></i>

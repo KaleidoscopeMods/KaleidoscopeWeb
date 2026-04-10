@@ -130,6 +130,46 @@ body {
     pointer-events: none;
 }
 
+/* --- 快速开始按钮 --- */
+.quick-start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 35px; /* 与上方副标题保持距离 */
+    padding: 14px 40px;
+    background: var(--primary-purple);
+    color: white;
+    text-decoration: none;
+    font-size: 1.15rem;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(157, 141, 241, 0.4);
+    transition: all 0.3s ease;
+    
+    /* 动画：时间错开，在副标题出现之后，向下提示出现之前显示 */
+    opacity: 0;
+    animation: heroEntrance 1.5s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+    
+    position: relative;
+    z-index: 20;
+}
+
+.quick-start-btn i {
+    transition: transform 0.3s ease;
+}
+
+/* 悬浮特效：稍微上浮并放大阴影，箭头向右微动 */
+.quick-start-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: #8b7ae6; /* 稍微深一点的紫色 */
+    box-shadow: 0 15px 35px rgba(157, 141, 241, 0.6);
+    color: white;
+}
+
+.quick-start-btn:hover i {
+    transform: translateX(4px);
+}
+
 .site-title {
     font-size: 2.8rem;
     margin-bottom: 30px;
