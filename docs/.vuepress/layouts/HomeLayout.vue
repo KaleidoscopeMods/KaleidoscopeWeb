@@ -41,7 +41,7 @@
                 <h3>森罗物语：厨房</h3>
                 <p>MC养老怎么能少得了做饭呢？</p>
               </div>
-              <a href="https://www.bilibili.com/video/BV1GJ411x7h7" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
+              <a href="/wiki/cookery/intro/" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
           <div class="gallery-item" style="background-image: url('/image/backgrounds/森罗物语：酒馆.avif');">
@@ -50,7 +50,7 @@
                 <h3>森罗物语：酒馆</h3>
                 <p>MC养老怎么能少得了酿酒呢？</p>
               </div>
-              <a href="https://www.bilibili.com/video/BV1GJ411x7h7" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
+              <a href="/wiki/tavern/intro/" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
           <div class="gallery-item" style="background-image: url('/image/backgrounds/森罗物语：玩偶.avif');">
@@ -59,7 +59,7 @@
                 <h3>森罗物语：玩偶</h3>
                 <p>精美的玩偶！</p>
               </div>
-              <a href="https://www.bilibili.com/video/BV1GJ411x7h7" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
+              <a href="/wiki/doll/intro/" class="detail-btn">查看详情 <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
         </div>
