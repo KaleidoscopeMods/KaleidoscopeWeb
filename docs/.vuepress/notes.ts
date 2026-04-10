@@ -23,6 +23,24 @@ const zhNote = defineNoteConfig({
                 '厨房简介',
             ],
         },
+        {
+            text: '酒馆',
+            collapsed: false,
+            icon: 'game-icons:tavern-sign',
+            prefix: '酒馆',
+            items: [
+                '酒馆简介',
+            ],
+        },
+        {
+            text: '玩偶',
+            collapsed: false,
+            icon: 'mdi:child-toy',
+            prefix: '玩偶',
+            items: [
+                '玩偶简介',
+            ],
+        },
     ],
 })
 
@@ -53,6 +71,24 @@ const enNote = defineNoteConfig({
             prefix: 'Cookery',
             items: [
                 "Cookery Introduction",
+            ],
+        },
+        {
+            text: 'Tavern',
+            collapsed: false,
+            icon: 'game-icons:tavern-sign',
+            prefix: 'Tavern',
+            items: [
+                "Tavern Introduction",
+            ],
+        },
+        {
+            text: 'Doll',
+            collapsed: false,
+            icon: 'mdi:child-toy',
+            prefix: 'Doll',
+            items: [
+                'Doll Introduction',
             ],
         },
     ],
