@@ -21,6 +21,10 @@ const zhNote = defineNoteConfig({
             prefix: '厨房',
             items: [
                 '厨房简介',
+                '作物种植',
+                '原料',
+                '烹饪',
+                '杂项',
             ],
         },
         {
