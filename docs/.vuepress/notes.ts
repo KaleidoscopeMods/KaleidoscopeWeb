@@ -75,6 +75,10 @@ const enNote = defineNoteConfig({
             prefix: 'Cookery',
             items: [
                 "Cookery Introduction",
+                'Crop Cultivation',
+                'Ingredients',
+                'Cooking',
+                'Miscellaneous',
             ],
         },
         {
