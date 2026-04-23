@@ -14,8 +14,8 @@ const iconStates = computed(() => {
 
     if (value >= 2) return 'full'
     if (value >= 1) return 'half'
-    return 'empty'
-  })
+    return null
+  }).filter((state): state is 'full' | 'half' => state !== null)
 })
 
 const saturationText = computed(() => {
@@ -79,10 +79,6 @@ const ariaLabel = computed(() => {
 
 .food-points__icon--half {
   background-image: url('/image/mcui/Half_Hunger.svg');
-}
-
-.food-points__icon--empty {
-  background-image: url('/image/mcui/Empty_Hunger.svg');
 }
 
 .food-points__text {
