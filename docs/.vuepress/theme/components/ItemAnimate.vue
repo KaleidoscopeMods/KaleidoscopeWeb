@@ -2,15 +2,16 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { resolveItemAnimateEntries } from '../utils/resolve-item-animate'
 
+type ItemAnimateAlign = 'left' | 'center' | 'right'
+
 const props = defineProps<{
   name?: string | string[]
   items?: string[]
   interval?: number
+  size?: number | string
   width?: number | string
   height?: number | string
-  containerWidth?: number | string
-  containerHeight?: number | string
-  align?: 'left' | 'center' | 'right'
+  align?: ItemAnimateAlign
   alt?: string
 }>()
 
@@ -26,35 +27,45 @@ const normalizedInterval = computed(() => {
   return Number.isFinite(value) && value > 0 ? value : 2000
 })
 
-function normalizeSize(value: number | string | undefined | null, fallback: string): string {
-  if (value === undefined || value === null || value === '') {
-    return fallback
+const normalizedSize = computed(() => {
+  if (props.size === undefined || props.size === null || props.size === '') {
+    return undefined
   }
 
-  return typeof value === 'number' ? `${value}px` : value
-}
-
-const normalizedWidth = computed(() => normalizeSize(props.width, '24px'))
-const normalizedHeight = computed(() => normalizeSize(props.height, normalizedWidth.value))
-const normalizedContainerWidth = computed(() => normalizeSize(props.containerWidth, normalizedWidth.value))
-const normalizedContainerHeight = computed(() => normalizeSize(props.containerHeight, normalizedHeight.value))
-
-const normalizedAlign = computed(() => {
-  if (props.align === 'left' || props.align === 'right' || props.align === 'center') {
-    return props.align
-  }
-
-  return 'center'
+  return typeof props.size === 'number' ? `${props.size}px` : props.size
 })
 
-const containerJustifyContent = computed(() => {
-  switch (normalizedAlign.value) {
-    case 'left':
-      return 'flex-start'
-    case 'right':
-      return 'flex-end'
-    default:
-      return 'center'
+const normalizedWidth = computed(() => {
+  if (props.width === undefined || props.width === null || props.width === '') {
+    return normalizedSize.value ?? '24px'
+  }
+
+  return typeof props.width === 'number' ? `${props.width}px` : props.width
+})
+
+const normalizedHeight = computed(() => {
+  if (props.height === undefined || props.height === null || props.height === '') {
+    return normalizedSize.value ?? normalizedWidth.value
+  }
+
+  return typeof props.height === 'number' ? `${props.height}px` : props.height
+})
+
+const normalizedAlign = computed<ItemAnimateAlign | undefined>(() => {
+  if (!props.align) return undefined
+
+  return ['left', 'center', 'right'].includes(props.align) ? props.align : undefined
+})
+
+const wrapperStyle = computed(() => {
+  if (!normalizedAlign.value) {
+    return undefined
+  }
+
+  return {
+    display: 'block',
+    width: '100%',
+    textAlign: normalizedAlign.value,
   }
 })
 
@@ -126,14 +137,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <span
-    class="item-animate-container"
-    :style="{
-      width: normalizedContainerWidth,
-      height: normalizedContainerHeight,
-      justifyContent: containerJustifyContent,
-    }"
-  >
+  <span class="item-animate-wrapper" :style="wrapperStyle">
     <span
       v-if="currentEntry"
       class="item-animate"
@@ -159,19 +163,17 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.item-animate-container {
-  display: inline-flex;
-  align-items: center;
+.item-animate-wrapper {
+  display: inline-block;
   vertical-align: middle;
-  overflow: hidden;
 }
 
 .item-animate {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  vertical-align: middle;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .item-animate__image {
@@ -179,6 +181,7 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .item-animate--fallback {
