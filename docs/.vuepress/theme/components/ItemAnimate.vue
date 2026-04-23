@@ -8,6 +8,9 @@ const props = defineProps<{
   interval?: number
   width?: number | string
   height?: number | string
+  containerWidth?: number | string
+  containerHeight?: number | string
+  align?: 'left' | 'center' | 'right'
   alt?: string
 }>()
 
@@ -23,20 +26,36 @@ const normalizedInterval = computed(() => {
   return Number.isFinite(value) && value > 0 ? value : 2000
 })
 
-const normalizedWidth = computed(() => {
-  if (props.width === undefined || props.width === null || props.width === '') {
-    return '24px'
+function normalizeSize(value: number | string | undefined | null, fallback: string): string {
+  if (value === undefined || value === null || value === '') {
+    return fallback
   }
 
-  return typeof props.width === 'number' ? `${props.width}px` : props.width
+  return typeof value === 'number' ? `${value}px` : value
+}
+
+const normalizedWidth = computed(() => normalizeSize(props.width, '24px'))
+const normalizedHeight = computed(() => normalizeSize(props.height, normalizedWidth.value))
+const normalizedContainerWidth = computed(() => normalizeSize(props.containerWidth, normalizedWidth.value))
+const normalizedContainerHeight = computed(() => normalizeSize(props.containerHeight, normalizedHeight.value))
+
+const normalizedAlign = computed(() => {
+  if (props.align === 'left' || props.align === 'right' || props.align === 'center') {
+    return props.align
+  }
+
+  return 'center'
 })
 
-const normalizedHeight = computed(() => {
-  if (props.height === undefined || props.height === null || props.height === '') {
-    return normalizedWidth.value
+const containerJustifyContent = computed(() => {
+  switch (normalizedAlign.value) {
+    case 'left':
+      return 'flex-start'
+    case 'right':
+      return 'flex-end'
+    default:
+      return 'center'
   }
-
-  return typeof props.height === 'number' ? `${props.height}px` : props.height
 })
 
 const currentEntry = computed(() => {
@@ -108,35 +127,51 @@ onBeforeUnmount(() => {
 
 <template>
   <span
-    v-if="currentEntry"
-    class="item-animate"
-    :style="{ width: normalizedWidth, height: normalizedHeight }"
+    class="item-animate-container"
+    :style="{
+      width: normalizedContainerWidth,
+      height: normalizedContainerHeight,
+      justifyContent: containerJustifyContent,
+    }"
   >
-    <img
-      class="item-animate__image"
-      :src="currentEntry.src"
-      :alt="altText"
-      :title="currentEntry.name"
-      :width="normalizedWidth"
-      :height="normalizedHeight"
+    <span
+      v-if="currentEntry"
+      class="item-animate"
+      :style="{ width: normalizedWidth, height: normalizedHeight }"
     >
-  </span>
-  <span
-    v-else
-    class="item-animate item-animate--fallback"
-    :title="missingNames.length ? `Missing: ${missingNames.join(', ')}` : undefined"
-  >
-    {{ fallbackText }}
+      <img
+        class="item-animate__image"
+        :src="currentEntry.src"
+        :alt="altText"
+        :title="currentEntry.name"
+        :width="normalizedWidth"
+        :height="normalizedHeight"
+      >
+    </span>
+    <span
+      v-else
+      class="item-animate item-animate--fallback"
+      :title="missingNames.length ? `Missing: ${missingNames.join(', ')}` : undefined"
+    >
+      {{ fallbackText }}
+    </span>
   </span>
 </template>
 
 <style scoped>
+.item-animate-container {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
 .item-animate {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  vertical-align: middle;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .item-animate__image {
