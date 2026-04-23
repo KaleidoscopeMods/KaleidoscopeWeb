@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import McTooltip from './McTooltip.vue'
 import { resolveItemAnimateEntries } from '../utils/resolve-item-animate'
+import { resolveItemDisplay } from '../utils/resolve-item-display'
 
 type ItemAnimateAlign = 'left' | 'center' | 'right'
 
@@ -77,6 +79,14 @@ const currentEntry = computed(() => {
   return entries.value[currentIndex.value] ?? entries.value[0]
 })
 
+const currentDisplay = computed(() => {
+  if (!currentEntry.value) {
+    return null
+  }
+
+  return resolveItemDisplay(currentEntry.value.name)
+})
+
 const fallbackText = computed(() => {
   const rawValue = props.items?.length
     ? props.items.join(', ')
@@ -87,7 +97,8 @@ const fallbackText = computed(() => {
   return rawValue?.trim() || 'ItemAnimate: unresolved'
 })
 
-const altText = computed(() => props.alt?.trim() || currentEntry.value?.name || fallbackText.value)
+const tooltipLabel = computed(() => currentDisplay.value?.displayName || currentEntry.value?.name || fallbackText.value)
+const altText = computed(() => props.alt?.trim() || tooltipLabel.value)
 
 function stopTimer() {
   if (!timer) return
@@ -138,20 +149,25 @@ onBeforeUnmount(() => {
 
 <template>
   <span class="item-animate-wrapper" :style="wrapperStyle">
-    <span
+    <McTooltip
       v-if="currentEntry"
-      class="item-animate"
-      :style="{ width: normalizedWidth, height: normalizedHeight }"
+      :label="tooltipLabel"
+      placement="top"
+      :disabled="!tooltipLabel"
     >
-      <img
-        class="item-animate__image"
-        :src="currentEntry.src"
-        :alt="altText"
-        :title="currentEntry.name"
-        :width="normalizedWidth"
-        :height="normalizedHeight"
+      <span
+        class="item-animate"
+        :style="{ width: normalizedWidth, height: normalizedHeight }"
       >
-    </span>
+        <img
+          class="item-animate__image"
+          :src="currentEntry.src"
+          :alt="altText"
+          :width="normalizedWidth"
+          :height="normalizedHeight"
+        >
+      </span>
+    </McTooltip>
     <span
       v-else
       class="item-animate item-animate--fallback"
