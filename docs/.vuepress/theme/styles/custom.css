@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/Minecraft.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WenQuanYi Bitmap Song 12px';
+  src: url('/fonts/WenQuanYi Bitmap Song 12px.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
   /** 主题颜色 */
 
@@ -24,6 +36,24 @@
   --vp-c-text-2: rgba(60, 60, 67, 0.78);
   --vp-c-text-3: rgba(60, 60, 67, 0.56);
   */
+
+  --mc-font-latin: 'Minecraft';
+  --mc-font-cjk: 'WenQuanYi Bitmap Song 12px';
+  --mc-tooltip-font-stack: 'Minecraft', 'WenQuanYi Bitmap Song 12px', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  --mc-tooltip-bg-start: #16071f;
+  --mc-tooltip-bg-end: #0b0613;
+  --mc-tooltip-border: #2a103e;
+  --mc-tooltip-outline: #100214;
+  --mc-tooltip-inner-border: rgb(183 128 255 / 30%);
+  --mc-tooltip-shadow: #22102c;
+  --mc-tooltip-shadow-drop: rgb(0 0 0 / 45%);
+  --mc-tooltip-text: #f6efff;
+  --mc-tooltip-padding-y: 0.3rem;
+  --mc-tooltip-padding-x: 0.55rem;
+  --mc-tooltip-font-size: 0.85rem;
+  --mc-tooltip-line-height: 1.35;
+  --mc-tooltip-letter-spacing: 0.02em;
+  --mc-tooltip-screen-padding: 8px;
 }
 
 /** 深色模式 */

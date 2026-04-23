@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { computed, ref, useId, useSlots } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, useId, useSlots } from 'vue'
+
+type TooltipPlacement = 'top' | 'bottom'
+type TooltipMode = 'pointer' | 'focus'
+
+interface TooltipPoint {
+  x: number
+  y: number
+}
 
 const props = withDefaults(defineProps<{
   label?: string
-  placement?: 'top' | 'bottom'
+  placement?: TooltipPlacement
   disabled?: boolean
   offset?: number
 }>(), {
@@ -15,36 +23,185 @@ const props = withDefaults(defineProps<{
 const slots = useSlots()
 const isVisible = ref(false)
 const tooltipId = useId()
+const triggerRef = ref<HTMLElement | null>(null)
+const contentRef = ref<HTMLElement | null>(null)
+const tooltipMode = ref<TooltipMode>('pointer')
+const pointerPosition = ref<TooltipPoint>({ x: 0, y: 0 })
+const contentStyle = ref<Record<string, string>>({})
 
 const normalizedLabel = computed(() => props.label?.trim() || '')
 const hasTooltip = computed(() => !props.disabled && Boolean(normalizedLabel.value || slots.content))
 const describedBy = computed(() => (hasTooltip.value ? tooltipId : undefined))
 const triggerTabIndex = computed(() => (hasTooltip.value ? 0 : undefined))
-const tooltipStyle = computed(() => ({
-  '--mc-tooltip-offset': `${props.offset}px`,
-}))
 
-function showTooltip() {
+function clamp(value: number, min: number, max: number) {
+  if (max < min) return min
+  return Math.min(Math.max(value, min), max)
+}
+
+function calculateFixedPosition(baseX: number, baseY: number, preferTop: boolean) {
+  const contentEl = contentRef.value
+
+  if (!contentEl || typeof window === 'undefined') {
+    return {
+      left: `${baseX}px`,
+      top: `${baseY}px`,
+    }
+  }
+
+  const screenPadding = 8
+  const { innerWidth, innerHeight } = window
+  const tooltipWidth = contentEl.offsetWidth
+  const tooltipHeight = contentEl.offsetHeight
+
+  let left = baseX
+  let top = preferTop
+    ? baseY - tooltipHeight - props.offset
+    : baseY + props.offset
+
+  left = clamp(left, screenPadding, Math.max(screenPadding, innerWidth - tooltipWidth - screenPadding))
+
+  if (preferTop && top < screenPadding) {
+    top = Math.min(baseY + props.offset, innerHeight - tooltipHeight - screenPadding)
+  }
+
+  if (!preferTop && top + tooltipHeight > innerHeight - screenPadding) {
+    top = Math.max(screenPadding, baseY - tooltipHeight - props.offset)
+  }
+
+  top = clamp(top, screenPadding, Math.max(screenPadding, innerHeight - tooltipHeight - screenPadding))
+
+  return {
+    left: `${left}px`,
+    top: `${top}px`,
+  }
+}
+
+function updatePosition() {
+  if (!isVisible.value || !hasTooltip.value) {
+    return
+  }
+
+  if (tooltipMode.value === 'pointer') {
+    const preferTop = props.placement === 'top'
+    contentStyle.value = calculateFixedPosition(
+      pointerPosition.value.x + props.offset,
+      pointerPosition.value.y,
+      preferTop,
+    )
+    return
+  }
+
+  const triggerEl = triggerRef.value
+
+  if (!triggerEl) {
+    return
+  }
+
+  const rect = triggerEl.getBoundingClientRect()
+  const contentEl = contentRef.value
+
+  if (!contentEl || typeof window === 'undefined') {
+    contentStyle.value = {
+      left: `${rect.left}px`,
+      top: `${rect.bottom + props.offset}px`,
+    }
+    return
+  }
+
+  const screenPadding = 8
+  const tooltipWidth = contentEl.offsetWidth
+  const anchorX = rect.left + (rect.width - tooltipWidth) / 2
+  const preferTop = props.placement === 'top'
+  const baseY = preferTop ? rect.top : rect.bottom
+
+  contentStyle.value = calculateFixedPosition(anchorX, baseY, preferTop)
+
+  if (rect.width === 0 && rect.height === 0) {
+    contentStyle.value.left = `${screenPadding}px`
+  }
+}
+
+async function openTooltip(mode: TooltipMode) {
   if (!hasTooltip.value) return
+
+  tooltipMode.value = mode
   isVisible.value = true
+  await nextTick()
+  updatePosition()
 }
 
 function hideTooltip() {
   isVisible.value = false
 }
+
+function handleMouseEnter(event: MouseEvent) {
+  pointerPosition.value = {
+    x: event.clientX,
+    y: event.clientY,
+  }
+  void openTooltip('pointer')
+}
+
+function handleMouseMove(event: MouseEvent) {
+  pointerPosition.value = {
+    x: event.clientX,
+    y: event.clientY,
+  }
+
+  if (!isVisible.value) {
+    void openTooltip('pointer')
+    return
+  }
+
+  if (tooltipMode.value !== 'pointer') {
+    tooltipMode.value = 'pointer'
+  }
+
+  updatePosition()
+}
+
+function handleMouseLeave() {
+  hideTooltip()
+}
+
+function handleFocusIn() {
+  void openTooltip('focus')
+}
+
+function handleFocusOut() {
+  hideTooltip()
+}
+
+function handleWindowChange() {
+  updatePosition()
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', handleWindowChange)
+  window.addEventListener('scroll', handleWindowChange, true)
+}
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', handleWindowChange)
+    window.removeEventListener('scroll', handleWindowChange, true)
+  }
+})
 </script>
 
 <template>
   <span
     class="mc-tooltip"
-    :class="[`mc-tooltip--${placement}`, { 'mc-tooltip--visible': isVisible, 'mc-tooltip--disabled': !hasTooltip }]"
-    :style="tooltipStyle"
-    @mouseenter="showTooltip"
-    @mouseleave="hideTooltip"
-    @focusin="showTooltip"
-    @focusout="hideTooltip"
+    :class="{ 'mc-tooltip--visible': isVisible, 'mc-tooltip--disabled': !hasTooltip }"
+    @mouseenter="handleMouseEnter"
+    @mousemove="handleMouseMove"
+    @mouseleave="handleMouseLeave"
+    @focusin="handleFocusIn"
+    @focusout="handleFocusOut"
   >
     <span
+      ref="triggerRef"
       class="mc-tooltip__trigger"
       :tabindex="triggerTabIndex"
       :aria-describedby="describedBy"
@@ -55,9 +212,11 @@ function hideTooltip() {
     <span
       v-if="hasTooltip"
       :id="tooltipId"
+      ref="contentRef"
       class="mc-tooltip__content"
       role="tooltip"
       :aria-hidden="!isVisible"
+      :style="contentStyle"
     >
       <span class="mc-tooltip__surface">
         <span class="mc-tooltip__title">
@@ -70,7 +229,6 @@ function hideTooltip() {
 
 <style scoped>
 .mc-tooltip {
-  position: relative;
   display: inline-flex;
   vertical-align: middle;
 }
@@ -86,30 +244,21 @@ function hideTooltip() {
 }
 
 .mc-tooltip__content {
-  position: absolute;
-  left: 50%;
+  position: fixed;
   z-index: 40;
   min-width: max-content;
   max-width: min(20rem, calc(100vw - 2rem));
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-50%) translateY(2px);
+  transform: translateY(2px);
   transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s step-end;
-}
-
-.mc-tooltip--top .mc-tooltip__content {
-  bottom: calc(100% + var(--mc-tooltip-offset, 8px));
-}
-
-.mc-tooltip--bottom .mc-tooltip__content {
-  top: calc(100% + var(--mc-tooltip-offset, 8px));
 }
 
 .mc-tooltip--visible .mc-tooltip__content {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
   transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s step-start;
 }
 
@@ -118,21 +267,21 @@ function hideTooltip() {
   display: inline-flex;
   flex-direction: column;
   gap: 0.2rem;
-  padding: 0.3rem 0.55rem;
-  border: 2px solid #2a103e;
-  outline: 2px solid #100214;
-  background: linear-gradient(180deg, #16071f 0%, #0b0613 100%);
-  color: #f6efff;
-  font-family: 'Minecraft', 'Press Start 2P', 'Fusion Pixel', 'Microsoft YaHei', 'PingFang SC', sans-serif;
-  font-size: 0.85rem;
+  padding: var(--mc-tooltip-padding-y) var(--mc-tooltip-padding-x);
+  border: 2px solid var(--mc-tooltip-border);
+  outline: 2px solid var(--mc-tooltip-outline);
+  background: linear-gradient(180deg, var(--mc-tooltip-bg-start) 0%, var(--mc-tooltip-bg-end) 100%);
+  color: var(--mc-tooltip-text);
+  font-family: var(--mc-tooltip-font-stack);
+  font-size: var(--mc-tooltip-font-size);
   font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: 0.02em;
-  text-shadow: 2px 2px 0 #22102c;
+  line-height: var(--mc-tooltip-line-height);
+  letter-spacing: var(--mc-tooltip-letter-spacing);
+  text-shadow: 2px 2px 0 var(--mc-tooltip-shadow);
   box-shadow:
-    0 0 0 2px #100214,
+    0 0 0 2px var(--mc-tooltip-outline),
     inset 0 0 0 1px #5f3a86,
-    2px 2px 0 0 rgb(0 0 0 / 45%);
+    2px 2px 0 0 var(--mc-tooltip-shadow-drop);
   white-space: nowrap;
 }
 
@@ -140,7 +289,7 @@ function hideTooltip() {
   content: '';
   position: absolute;
   inset: 2px;
-  border: 1px solid rgb(183 128 255 / 30%);
+  border: 1px solid var(--mc-tooltip-inner-border);
   pointer-events: none;
 }
 

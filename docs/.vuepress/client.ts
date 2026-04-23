@@ -9,7 +9,7 @@ import ItemAnimate from './theme/components/ItemAnimate.vue'
 
 // import CustomComponent from './theme/components/Custom.vue'
 
-// import './theme/styles/custom.css'
+import './theme/styles/custom.css'
 
 export default defineClientConfig({
   enhance({ app }) {
