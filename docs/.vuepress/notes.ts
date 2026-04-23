@@ -21,9 +21,11 @@ const zhNote = defineNoteConfig({
             prefix: '厨房',
             items: [
                 '厨房简介',
+                '进度',
                 '作物种植',
                 '原料',
                 '烹饪',
+                '食谱',
                 '杂项',
             ],
         },
@@ -75,9 +77,11 @@ const enNote = defineNoteConfig({
             prefix: 'Cookery',
             items: [
                 "Cookery Introduction",
+                'Advancements',
                 'Crop Cultivation',
                 'Ingredients',
                 'Cooking',
+                'Cookbook',
                 'Miscellaneous',
             ],
         },
