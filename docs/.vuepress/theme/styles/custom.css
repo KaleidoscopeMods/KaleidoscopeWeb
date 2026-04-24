@@ -54,6 +54,9 @@
   --mc-tooltip-line-height: 1.35;
   --mc-tooltip-letter-spacing: 0.02em;
   --mc-tooltip-screen-padding: 8px;
+  --mcui-panel-bg: #c6c6c6;
+  --mcui-panel-light: #dbdbdb;
+  --mcui-panel-dark: #5b5b5b;
 }
 
 /** 深色模式 */
@@ -77,4 +80,16 @@
   --vp-c-text-2: rgba(235, 235, 245, 0.6);
   --vp-c-text-3: rgba(235, 235, 245, 0.38);
   */
+}
+
+.mcui {
+  display: inline-block;
+  position: relative;
+  background-color: var(--mcui-panel-bg);
+  border: 2px solid;
+  border-color: var(--mcui-panel-light) var(--mcui-panel-dark) var(--mcui-panel-dark) var(--mcui-panel-light);
+  padding: 6px;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: bottom;
 }

@@ -15,6 +15,7 @@ const props = defineProps<{
   height?: number | string
   align?: ItemAnimateAlign
   alt?: string
+  label?: string
 }>()
 
 const currentIndex = ref(0)
@@ -97,7 +98,7 @@ const fallbackText = computed(() => {
   return rawValue?.trim() || 'ItemAnimate: unresolved'
 })
 
-const tooltipLabel = computed(() => currentDisplay.value?.displayName || currentEntry.value?.name || fallbackText.value)
+const tooltipLabel = computed(() => props.label?.trim() || currentDisplay.value?.displayName || currentEntry.value?.name || fallbackText.value)
 const altText = computed(() => props.alt?.trim() || tooltipLabel.value)
 
 function stopTimer() {
