@@ -111,7 +111,7 @@ function normalizeSlot(value: CraftingSlotInput, key: string): NormalizedSlot {
       ? [slotInput.id]
       : []
 
-  const resolvedCandidates = resolveItemAnimateEntries(undefined, candidateTokens)
+  const resolvedCandidates = resolveItemAnimateEntries(undefined, candidateTokens, { preserveDuplicates: true })
   const resolvedItems = resolvedCandidates.entries.map((entry) => entry.name)
 
   if (resolvedItems.length === 0) {
@@ -310,7 +310,6 @@ function countText(slot: NormalizedSlot) {
   align-items: start;
   gap: 4px;
   position: relative;
-  padding-top: 20px;
 }
 
 .mcui-crafting-table__grid {
@@ -395,7 +394,6 @@ function countText(slot: NormalizedSlot) {
   width: 32px;
   height: 26px;
   align-self: center;
-  margin-top: 18px;
   background: url('/image/mcui/Grid_layout_Arrow_(small).png') center / contain no-repeat;
 }
 

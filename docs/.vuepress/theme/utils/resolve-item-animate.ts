@@ -11,6 +11,10 @@ export interface ResolveItemAnimateResult {
   missingNames: string[]
 }
 
+export interface ResolveItemAnimateOptions {
+  preserveDuplicates?: boolean
+}
+
 type InputValue = string | string[] | undefined
 
 const normalizedGroupMap = new Map(
@@ -77,11 +81,15 @@ function resolveToken(token: string, visited = new Set<string>()): { names: stri
   return { names: [], missing: [token] }
 }
 
-export function resolveItemAnimateEntries(name: InputValue, items?: string[]): ResolveItemAnimateResult {
+export function resolveItemAnimateEntries(
+  name: InputValue,
+  items?: string[],
+  options: ResolveItemAnimateOptions = {}
+): ResolveItemAnimateResult {
   const inputList = toInputList(name, items)
   const entries: ResolvedItemAnimateEntry[] = []
   const missingNames: string[] = []
-  const seen = new Set<string>()
+  const seen = options.preserveDuplicates ? undefined : new Set<string>()
 
   for (const rawToken of inputList) {
     const token = typeof rawToken === 'string' ? rawToken.trim() : ''
@@ -92,7 +100,7 @@ export function resolveItemAnimateEntries(name: InputValue, items?: string[]): R
 
     for (const resolvedName of resolved.names) {
       const normalizedName = normalizeItemName(resolvedName)
-      if (seen.has(normalizedName)) continue
+      if (seen?.has(normalizedName)) continue
 
       const entry = getItemImageEntry(resolvedName)
       if (!entry) {
@@ -100,7 +108,7 @@ export function resolveItemAnimateEntries(name: InputValue, items?: string[]): R
         continue
       }
 
-      seen.add(normalizedName)
+      seen?.add(normalizedName)
       entries.push({
         name: entry.name,
         src: entry.src,

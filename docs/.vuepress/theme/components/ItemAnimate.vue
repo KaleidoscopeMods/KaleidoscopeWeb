@@ -21,7 +21,7 @@ const props = defineProps<{
 const currentIndex = ref(0)
 let timer: ReturnType<typeof setInterval> | undefined
 
-const resolved = computed(() => resolveItemAnimateEntries(props.name, props.items))
+const resolved = computed(() => resolveItemAnimateEntries(props.name, props.items, { preserveDuplicates: true }))
 const entries = computed(() => resolved.value.entries)
 const missingNames = computed(() => resolved.value.missingNames)
 
