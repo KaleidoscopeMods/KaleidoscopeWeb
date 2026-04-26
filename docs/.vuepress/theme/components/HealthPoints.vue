@@ -46,6 +46,8 @@ const isAbsorption = computed(() => toBoolean(props.absorption))
 const hideTag = computed(() => toBoolean(props.notag))
 const compactMode = computed(() => normalizedValue.value >= 16)
 const compactCount = computed(() => normalizedValue.value / 2)
+const valueText = computed(() => formatHalfStep(normalizedValue.value))
+const compactCountText = computed(() => formatHalfStep(compactCount.value))
 
 const iconStates = computed<HeartState[]>(() => {
   if (compactMode.value) {
@@ -54,7 +56,7 @@ const iconStates = computed<HeartState[]>(() => {
 
   const slotCount = normalizedTotal.value > 0
     ? Math.max(1, Math.ceil(normalizedTotal.value / 2))
-    : Math.ceil(normalizedValue.value / 2)
+    : Math.max(1, Math.ceil(normalizedValue.value / 2))
 
   return Array.from({ length: slotCount }, (_, index) => {
     const slotValue = normalizedValue.value - index * 2
@@ -69,46 +71,37 @@ const themeClass = computed(() => isAbsorption.value ? 'health-points--absorptio
 
 const ariaLabel = computed(() => {
   const prefix = isAbsorption.value ? '伤害吸收值' : '生命值'
-  const count = formatHalfStep(compactCount.value)
 
-  if (compactMode.value) {
-    return hideTag.value
-      ? `${prefix} ${normalizedValue.value}，心形数量 ${count}`
-      : `${prefix} ${normalizedValue.value}，显示为 ${count} 颗心`
+  if (hideTag.value) {
+    return `${prefix} ${valueText.value}`
   }
 
-  return `${prefix} ${normalizedValue.value}`
+  return compactMode.value
+    ? `${prefix} ${valueText.value}，${compactCountText.value} 颗心`
+    : `${prefix} ${valueText.value}`
 })
-
-const compactCountText = computed(() => formatHalfStep(compactCount.value))
-const compactValueText = computed(() => formatHalfStep(normalizedValue.value))
 </script>
 
 <template>
   <span class="health-points" :class="themeClass" :aria-label="ariaLabel">
-    <template v-if="compactMode">
-      <span class="health-points__compact" aria-hidden="true">
+    <span class="health-points__value">{{ valueText }}</span>
+    <span v-if="!hideTag" class="health-points__tag">
+      <span class="health-points__paren">（</span>
+      <span v-if="compactMode" class="health-points__compact" aria-hidden="true">
         <span class="health-points__icon health-points__icon--full" :style="{ width: normalizedSize, height: normalizedSize }" />
         <span class="health-points__times">×</span>
         <span class="health-points__count">{{ compactCountText }}</span>
       </span>
-      <span v-if="!hideTag" class="health-points__tag">
-        ({{ compactValueText }}
-        <span class="health-points__tag-inline" aria-hidden="true">
-          <span class="health-points__icon health-points__icon--full" :style="{ width: normalizedSize, height: normalizedSize }" />
-          <span class="health-points__times">×</span>
-          <span class="health-points__count">{{ compactCountText }}</span>
-        </span>)
+      <span v-else class="health-points__icons" aria-hidden="true">
+        <span
+          v-for="(state, index) in iconStates"
+          :key="index"
+          class="health-points__icon"
+          :class="`health-points__icon--${state}`"
+          :style="{ width: normalizedSize, height: normalizedSize }"
+        />
       </span>
-    </template>
-    <span v-else class="health-points__icons" aria-hidden="true">
-      <span
-        v-for="(state, index) in iconStates"
-        :key="index"
-        class="health-points__icon"
-        :class="`health-points__icon--${state}`"
-        :style="{ width: normalizedSize, height: normalizedSize }"
-      />
+      <span class="health-points__paren">）</span>
     </span>
   </span>
 </template>
@@ -117,15 +110,27 @@ const compactValueText = computed(() => formatHalfStep(normalizedValue.value))
 .health-points {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: 0.2em;
   vertical-align: middle;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.health-points__value {
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.health-points__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+  color: var(--vp-c-text-2);
 }
 
 .health-points__icons,
-.health-points__compact,
-.health-points__tag-inline {
+.health-points__compact {
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -164,10 +169,7 @@ const compactValueText = computed(() => formatHalfStep(normalizedValue.value))
   background-image: url('/image/mcui/Empty_Heart_(icon).png');
 }
 
-.health-points__tag {
-  color: var(--vp-c-text-2);
-}
-
+.health-points__paren,
 .health-points__times,
 .health-points__count {
   line-height: 1;

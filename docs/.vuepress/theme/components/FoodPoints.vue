@@ -6,17 +6,19 @@ const props = defineProps<{
   saturation?: number
 }>()
 
-const iconStates = computed(() => {
-  const hunger = Math.max(0, Math.min(20, Number(props.hunger) || 0))
+const normalizedHunger = computed(() => Math.max(0, Math.min(20, Number(props.hunger) || 0)))
 
+const iconStates = computed(() => {
   return Array.from({ length: 10 }, (_, index) => {
-    const value = hunger - index * 2
+    const value = normalizedHunger.value - index * 2
 
     if (value >= 2) return 'full'
     if (value >= 1) return 'half'
     return null
   }).filter((state): state is 'full' | 'half' => state !== null)
 })
+
+const hungerText = computed(() => normalizedHunger.value.toString())
 
 const saturationText = computed(() => {
   if (props.saturation === undefined) return null
@@ -26,22 +28,27 @@ const saturationText = computed(() => {
 
 const ariaLabel = computed(() => {
   if (saturationText.value === null) {
-    return `饥饿值 ${props.hunger}`
+    return `饥饿值 ${hungerText.value}`
   }
 
-  return `饥饿值 ${props.hunger}，饱和度 ${saturationText.value}`
+  return `饥饿值 ${hungerText.value}，饱和度 ${saturationText.value}`
 })
 </script>
 
 <template>
   <span class="food-points" :aria-label="ariaLabel">
-    <span class="food-points__icons" aria-hidden="true">
-      <span
-        v-for="(state, index) in iconStates"
-        :key="index"
-        class="food-points__icon"
-        :class="`food-points__icon--${state}`"
-      />
+    <span class="food-points__value">{{ hungerText }}</span>
+    <span class="food-points__tag" aria-hidden="true">
+      <span class="food-points__paren">（</span>
+      <span class="food-points__icons">
+        <span
+          v-for="(state, index) in iconStates"
+          :key="index"
+          class="food-points__icon"
+          :class="`food-points__icon--${state}`"
+        />
+      </span>
+      <span class="food-points__paren">）</span>
     </span>
     <span v-if="saturationText !== null" class="food-points__text">
       +{{ saturationText }} 饱和度
@@ -53,9 +60,23 @@ const ariaLabel = computed(() => {
 .food-points {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
+  gap: 0.2em;
   vertical-align: middle;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.food-points__value {
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.food-points__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+  color: var(--vp-c-text-2);
 }
 
 .food-points__icons {
@@ -71,6 +92,7 @@ const ariaLabel = computed(() => {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  image-rendering: pixelated;
 }
 
 .food-points__icon--full {
@@ -81,9 +103,14 @@ const ariaLabel = computed(() => {
   background-image: url('/image/mcui/Half_Hunger.svg');
 }
 
+.food-points__paren,
 .food-points__text {
-  font-variant-numeric: tabular-nums;
   color: var(--vp-c-text-2);
+}
+
+.food-points__text {
+  margin-left: 0.18em;
   font-size: 0.92em;
+  line-height: 1;
 }
 </style>
