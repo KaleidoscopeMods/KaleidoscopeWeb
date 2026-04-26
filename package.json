@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.33.0",
   "author": "PurpleComet1793 <purplecomet234@gmail.com>",
   "license": "MIT",
-   "scripts": {
+  "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
     "docs:build": "vuepress build docs --clean-cache --clean-temp",
@@ -30,5 +30,9 @@
   },
   "engines": {
     "node": "^20.19.0 || >=22.0.0"
+  },
+  "dependencies": {
+    "echarts": "^6.0.0",
+    "mermaid": "^11.14.0"
   }
 }

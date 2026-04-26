@@ -128,9 +128,9 @@ export default defineUserConfig({
     //   math: {             // 启用数学公式
     //     type: 'katex',
     //   },
-    //   chartjs: true,      // 启用 chart.js
-    //   echarts: true,      // 启用 ECharts
-    //   mermaid: true,      // 启用 mermaid
+    chartjs: true,      // 启用 chart.js
+    echarts: true,      // 启用 ECharts
+    mermaid: true,      // 启用 mermaid
     //   flowchart: true,    // 启用 flowchart
     //   image: {
     //     figure: true,     // 启用 figure
