@@ -1,5 +1,6 @@
 import { defineClientConfig } from 'vuepress/client'
 import HomeLayout from './layouts/HomeLayout.vue'
+import AdvancementIcon from './theme/components/AdvancementIcon.vue'
 import FoodPoints from './theme/components/FoodPoints.vue'
 import HealthPoints from './theme/components/HealthPoints.vue'
 import ItemAnimate from './theme/components/ItemAnimate.vue'
@@ -22,6 +23,7 @@ export default defineClientConfig({
     // app.component('Swiper', Swiper) // you should install `swiper`
 
     // your custom components
+    app.component('AdvancementIcon', AdvancementIcon)
     app.component('FoodPoints', FoodPoints)
     app.component('hp', HealthPoints)
     app.component('ItemAnimate', ItemAnimate)
