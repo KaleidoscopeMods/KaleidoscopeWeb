@@ -12,11 +12,37 @@ const props = defineProps<{
   title?: string
 }>()
 
-const frameMap: Record<FrameType, string> = {
-  task: '/image/mcui/Advancement-plain-raw.png',
-  goal: '/image/mcui/Advancement-oval-raw.png',
-  challenge: '/image/mcui/Advancement-fancy-raw.png',
+// Frame PNGs are 52x52. Each frame's slot has a measured center and size:
+//   plain:     slot 32x32, center (24.5, 24.5) — bevel shadow biases right/bottom
+//   oval:      slot 32x32, center (24.5, 24.5)
+//   challenge: slot 32x32, center (25.5, 25.5) — symmetric tassels
+const FRAME_META: Record<FrameType, {
+  src: string
+  slotSize: number
+  slotCenterX: number
+  slotCenterY: number
+}> = {
+  task: {
+    src: '/image/mcui/Advancement-plain-raw.png',
+    slotSize: 32,
+    slotCenterX: 24.5,
+    slotCenterY: 24.5,
+  },
+  goal: {
+    src: '/image/mcui/Advancement-oval-raw.png',
+    slotSize: 32,
+    slotCenterX: 24.5,
+    slotCenterY: 24.5,
+  },
+  challenge: {
+    src: '/image/mcui/Advancement-fancy-raw.png',
+    slotSize: 32,
+    slotCenterX: 25.5,
+    slotCenterY: 25.5,
+  },
 }
+
+const FRAME_CANVAS = 52
 
 const normalizedFrame = computed<FrameType>(() => {
   const f = props.frame?.trim().toLowerCase()
@@ -24,7 +50,8 @@ const normalizedFrame = computed<FrameType>(() => {
   return 'task'
 })
 
-const frameSrc = computed(() => frameMap[normalizedFrame.value])
+const frameMeta = computed(() => FRAME_META[normalizedFrame.value])
+const frameSrc = computed(() => frameMeta.value.src)
 
 const normalizedSize = computed(() => {
   if (props.size === undefined || props.size === null || props.size === '') {
@@ -33,11 +60,14 @@ const normalizedSize = computed(() => {
   return typeof props.size === 'number' ? `${props.size}px` : props.size
 })
 
-const itemIconSize = computed(() => {
-  const sizeNum = parseInt(normalizedSize.value)
-  const iconSize = Math.round(sizeNum * 0.615)
-  return `${iconSize}px`
+const sizeNumber = computed(() => {
+  const parsed = parseFloat(normalizedSize.value)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 52
 })
+
+const itemIconSize = computed(() => `${sizeNumber.value * frameMeta.value.slotSize / FRAME_CANVAS}px`)
+const itemCenterX = computed(() => `${sizeNumber.value * frameMeta.value.slotCenterX / FRAME_CANVAS}px`)
+const itemCenterY = computed(() => `${sizeNumber.value * frameMeta.value.slotCenterY / FRAME_CANVAS}px`)
 
 const itemSrc = computed(() => {
   if (!props.item) return undefined
@@ -66,7 +96,12 @@ const tooltipLabel = computed(() => props.title?.trim() || undefined)
         class="advancement-icon__item"
         :src="itemSrc"
         :alt="tooltipLabel || item || ''"
-        :style="{ width: itemIconSize, height: itemIconSize }"
+        :style="{
+          width: itemIconSize,
+          height: itemIconSize,
+          left: itemCenterX,
+          top: itemCenterY,
+        }"
       >
     </span>
   </McTooltip>
@@ -74,11 +109,10 @@ const tooltipLabel = computed(() => props.title?.trim() || undefined)
 
 <style scoped>
 .advancement-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   position: relative;
   vertical-align: middle;
+  line-height: 0;
 }
 
 .advancement-icon__frame {
@@ -91,7 +125,8 @@ const tooltipLabel = computed(() => props.title?.trim() || undefined)
 }
 
 .advancement-icon__item {
-  position: relative;
+  position: absolute;
+  transform: translate(-50%, -50%);
   object-fit: contain;
   image-rendering: pixelated;
   z-index: 1;
