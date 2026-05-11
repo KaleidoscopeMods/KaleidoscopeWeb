@@ -12,15 +12,15 @@ const props = defineProps<{
   title?: string
 }>()
 
-// Frame PNGs are 52x52 with the slot interior (RGB 198,198,198) centered at (25.5, 25.5).
-// Item icons are rendered at 16/26 of the frame, matching vanilla Minecraft's 16x16 item
-// inside a 26x26 advancement texture.
 const FRAME_SRC: Record<FrameType, string> = {
   task: '/image/mcui/Advancement-plain-raw.png',
   goal: '/image/mcui/Advancement-oval-raw.png',
   challenge: '/image/mcui/Advancement-fancy-raw.png',
 }
 
+// Frame PNGs are 52x52. The slot floor (where items rest) is centered at (25.5, 25.5),
+// matching the geometric center. Items are rendered at 16/26 of the frame to match the
+// vanilla Minecraft ratio of a 16x16 item inside a 26x26 advancement texture.
 const ITEM_RATIO = 16 / 26
 
 const normalizedFrame = computed<FrameType>(() => {
@@ -45,6 +45,12 @@ const sizeNumber = computed(() => {
 
 const itemIconSize = computed(() => `${sizeNumber.value * ITEM_RATIO}px`)
 
+const frameStyle = computed(() => ({
+  width: normalizedSize.value,
+  height: normalizedSize.value,
+  backgroundImage: `url(${frameSrc.value})`,
+}))
+
 const itemSrc = computed(() => {
   if (!props.item) return undefined
   const entry = getItemImageEntry(props.item)
@@ -56,17 +62,7 @@ const tooltipLabel = computed(() => props.title?.trim() || undefined)
 
 <template>
   <McTooltip :label="tooltipLabel ?? ''" :disabled="!tooltipLabel" placement="top">
-    <span
-      class="advancement-icon"
-      :style="{ width: normalizedSize, height: normalizedSize }"
-      :aria-label="tooltipLabel"
-    >
-      <img
-        class="advancement-icon__frame"
-        :src="frameSrc"
-        alt=""
-        aria-hidden="true"
-      >
+    <span class="advancement-icon" :style="frameStyle" :aria-label="tooltipLabel">
       <img
         v-if="itemSrc"
         class="advancement-icon__item"
@@ -80,28 +76,24 @@ const tooltipLabel = computed(() => props.title?.trim() || undefined)
 
 <style scoped>
 .advancement-icon {
-  display: inline-block;
-  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   vertical-align: middle;
-  line-height: 0;
-}
-
-.advancement-icon__frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
   image-rendering: pixelated;
+  line-height: 0;
+  box-sizing: content-box;
+  padding: 0;
+  margin: 0;
 }
 
 .advancement-icon__item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: block;
   object-fit: contain;
   image-rendering: pixelated;
-  z-index: 1;
+  flex: 0 0 auto;
 }
 </style>
