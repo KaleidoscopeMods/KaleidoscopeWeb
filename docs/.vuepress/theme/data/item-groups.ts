@@ -3,6 +3,8 @@ export const itemGroupMap = {
     'tomato_seed',
     'lettuce_seed',
     'chili_seed',
+    'rice',
+    'wild_rice',
   ],
   Farmers_Suit: [
     'straw_hat',

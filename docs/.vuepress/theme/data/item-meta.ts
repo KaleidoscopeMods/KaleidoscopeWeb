@@ -97,6 +97,61 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '猪儿虫',
     },
   },
+  chair_acacia: {
+    name: {
+      zhCN: '金合欢木椅子',
+    },
+  },
+  chair_bamboo: {
+    name: {
+      zhCN: '竹椅子',
+    },
+  },
+  chair_birch: {
+    name: {
+      zhCN: '白桦木椅子',
+    },
+  },
+  chair_cherry: {
+    name: {
+      zhCN: '樱花木椅子',
+    },
+  },
+  chair_crimson: {
+    name: {
+      zhCN: '绯红木椅子',
+    },
+  },
+  chair_dark_oak: {
+    name: {
+      zhCN: '深色橡木椅子',
+    },
+  },
+  chair_jungle: {
+    name: {
+      zhCN: '丛林木椅子',
+    },
+  },
+  chair_mangrove: {
+    name: {
+      zhCN: '红树木椅子',
+    },
+  },
+  chair_oak: {
+    name: {
+      zhCN: '橡木椅子',
+    },
+  },
+  chair_spruce: {
+    name: {
+      zhCN: '云杉木椅子',
+    },
+  },
+  chair_warped: {
+    name: {
+      zhCN: '诡异木椅子',
+    },
+  },
   chicken_and_mushroom_stew: {
     name: {
       zhCN: '小鸡炖蘑菇',
@@ -108,6 +163,21 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
     },
     category: 'seed',
   },
+  chili_crop: {
+    name: {
+      zhCN: '辣椒',
+    },
+  },
+  chili_ristra: {
+    name: {
+      zhCN: '辣椒串串',
+    },
+  },
+  chopping_board: {
+    name: {
+      zhCN: '菜板',
+    },
+  },
   chorus_fried_egg: {
     name: {
       zhCN: '荷包紫颂烧',
@@ -118,9 +188,74 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '冷肉炙',
     },
   },
+  cold_cut_ham_slices: {
+    name: {
+      zhCN: '冷切火腿片',
+    },
+  },
+  cold_cut_ham_slices_gui: {
+    name: {
+      zhCN: '冷切火腿片',
+    },
+  },
   cold_style_sashimi: {
     name: {
       zhCN: '寒带风味刺身',
+    },
+  },
+  cook_stool_acacia: {
+    name: {
+      zhCN: '金合欢木厨娘凳',
+    },
+  },
+  cook_stool_bamboo: {
+    name: {
+      zhCN: '竹厨娘凳',
+    },
+  },
+  cook_stool_birch: {
+    name: {
+      zhCN: '白桦木厨娘凳',
+    },
+  },
+  cook_stool_cherry: {
+    name: {
+      zhCN: '樱花木厨娘凳',
+    },
+  },
+  cook_stool_crimson: {
+    name: {
+      zhCN: '绯红木厨娘凳',
+    },
+  },
+  cook_stool_dark_oak: {
+    name: {
+      zhCN: '深色橡木厨娘凳',
+    },
+  },
+  cook_stool_jungle: {
+    name: {
+      zhCN: '丛林木厨娘凳',
+    },
+  },
+  cook_stool_mangrove: {
+    name: {
+      zhCN: '红树木厨娘凳',
+    },
+  },
+  cook_stool_oak: {
+    name: {
+      zhCN: '橡木厨娘凳',
+    },
+  },
+  cook_stool_spruce: {
+    name: {
+      zhCN: '云杉木厨娘凳',
+    },
+  },
+  cook_stool_warped: {
+    name: {
+      zhCN: '诡异木厨娘凳',
     },
   },
   cooked_cow_offal: {
@@ -223,6 +358,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '蛋炒饭',
     },
   },
+  egg: {
+    name: {
+      zhCN: '鸡蛋',
+    },
+  },
   empty_cup: {
     name: {
       zhCN: '空茶杯',
@@ -258,6 +398,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '恐惧浓汤',
     },
   },
+  feather: {
+    name: {
+      zhCN: '羽毛',
+    },
+  },
   fish_flavored_shredded_pork: {
     name: {
       zhCN: '鱼香肉丝',
@@ -266,6 +411,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
   fish_flavored_shredded_pork_rice_bowl: {
     name: {
       zhCN: '鱼香肉丝盖饭',
+    },
+  },
+  flint_and_steel: {
+    name: {
+      zhCN: '打火石',
     },
   },
   flour: {
@@ -308,6 +458,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '炸春卷',
     },
   },
+  frogspawn_jelly: {
+    name: {
+      zhCN: '蛙卵果冻',
+    },
+  },
   frost_lamb_chop: {
     name: {
       zhCN: '凛冬羊排',
@@ -316,6 +471,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
   fruit_basket: {
     name: {
       zhCN: '果篮',
+    },
+  },
+  fruit_basket_full: {
+    name: {
+      zhCN: '装有物品的果篮',
     },
   },
   fruit_platter: {
@@ -339,6 +499,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
     },
     category: 'crop',
   },
+  honey: {
+    name: {
+      zhCN: '蜂蜜',
+    },
+  },
   hui_noodle: {
     name: {
       zhCN: '羊肉烩面',
@@ -347,6 +512,26 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
   iron_kitchen_knife: {
     name: {
       zhCN: '铁菜刀',
+    },
+  },
+  iron_hoe: {
+    name: {
+      zhCN: '铁锄',
+    },
+  },
+  kitchen_shovel: {
+    name: {
+      zhCN: '锅铲',
+    },
+  },
+  kitchen_shovel_has_oil: {
+    name: {
+      zhCN: '沾有油脂的锅铲',
+    },
+  },
+  kitchen_shovel_no_oil: {
+    name: {
+      zhCN: '锅铲',
     },
   },
   kitchenware_racks: {
@@ -359,11 +544,21 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '萝卜羊肉汤',
     },
   },
+  lava_bucket: {
+    name: {
+      zhCN: '熔岩桶',
+    },
+  },
   lettuce: {
     name: {
       zhCN: '生菜',
     },
     category: 'crop',
+  },
+  lettuce_crop: {
+    name: {
+      zhCN: '生菜',
+    },
   },
   lettuce_seed: {
     name: {
@@ -406,6 +601,21 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '油脂',
     },
   },
+  oil_block: {
+    name: {
+      zhCN: '油脂块',
+    },
+  },
+  oil_in_millstone: {
+    name: {
+      zhCN: '磨盘中的油脂',
+    },
+  },
+  oil_pot: {
+    name: {
+      zhCN: '油壶',
+    },
+  },
   oil_splashed_fish: {
     name: {
       zhCN: '油泼鱼',
@@ -424,6 +634,21 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
   pork_bone_soup: {
     name: {
       zhCN: '大骨汤',
+    },
+  },
+  pot: {
+    name: {
+      zhCN: '炒锅',
+    },
+  },
+  pot_has_oil: {
+    name: {
+      zhCN: '装有油脂的油壶',
+    },
+  },
+  pot_no_oil: {
+    name: {
+      zhCN: '油壶',
     },
   },
   pufferfish_soup: {
@@ -446,6 +671,36 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '生驴肉',
     },
   },
+  raw_dough: {
+    name: {
+      zhCN: '生面团',
+    },
+  },
+  raw_dough_0: {
+    name: {
+      zhCN: '生面团',
+    },
+  },
+  raw_dough_1: {
+    name: {
+      zhCN: '拉扯中的生面团',
+    },
+  },
+  raw_dough_2: {
+    name: {
+      zhCN: '拉扯中的生面团',
+    },
+  },
+  raw_dough_3: {
+    name: {
+      zhCN: '拉扯中的生面团',
+    },
+  },
+  raw_dough_4: {
+    name: {
+      zhCN: '拉扯完成的生面团',
+    },
+  },
   raw_lamb_chops: {
     name: {
       zhCN: '生羊排',
@@ -466,6 +721,26 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '生五花肉',
     },
   },
+  recipe_block: {
+    name: {
+      zhCN: '菜谱',
+    },
+  },
+  recipe_item: {
+    name: {
+      zhCN: '菜谱',
+    },
+  },
+  recipe_item_has_recipe: {
+    name: {
+      zhCN: '已记录菜谱',
+    },
+  },
+  recipe_item_no_recipe: {
+    name: {
+      zhCN: '空白菜谱',
+    },
+  },
   red_chili: {
     name: {
       zhCN: '红辣椒',
@@ -483,6 +758,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
     },
     category: 'crop',
   },
+  rice_crop: {
+    name: {
+      zhCN: '水稻',
+    },
+  },
   rice_panicle: {
     name: {
       zhCN: '稻穗',
@@ -492,6 +772,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
   sakura_fubuki: {
     name: {
       zhCN: '樱吹雪',
+    },
+  },
+  salmon: {
+    name: {
+      zhCN: '生鲑鱼',
     },
   },
   samsa: {
@@ -541,6 +826,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
     },
     category: 'tool',
   },
+  skeleton_skull: {
+    name: {
+      zhCN: '骷髅头颅',
+    },
+  },
   slime_ball_meal: {
     name: {
       zhCN: '黏液饭',
@@ -571,6 +861,21 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '仰望星空派',
     },
   },
+  steamer: {
+    name: {
+      zhCN: '蒸笼',
+    },
+  },
+  steamer_has_items: {
+    name: {
+      zhCN: '装有食物的蒸笼',
+    },
+  },
+  steamer_no_items: {
+    name: {
+      zhCN: '蒸笼',
+    },
+  },
   stir_fried_beef_offal: {
     name: {
       zhCN: '爆炒牛杂',
@@ -591,6 +896,26 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '青椒炒肉盖饭',
     },
   },
+  stockpot: {
+    name: {
+      zhCN: '汤锅',
+    },
+  },
+  stockpot_lid: {
+    name: {
+      zhCN: '汤锅盖',
+    },
+  },
+  stove: {
+    name: {
+      zhCN: '炉灶',
+    },
+  },
+  straw_block: {
+    name: {
+      zhCN: '稻草捆',
+    },
+  },
   straw_hat: {
     name: {
       zhCN: '草帽',
@@ -602,6 +927,11 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '缀花草帽',
     },
     category: 'equipment',
+  },
+  strung_mushrooms: {
+    name: {
+      zhCN: '蘑菇串串',
+    },
   },
   stuffed_dough_food: {
     name: {
@@ -638,6 +968,61 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '糖醋里脊盖饭',
     },
   },
+  table_acacia: {
+    name: {
+      zhCN: '金合欢木餐桌',
+    },
+  },
+  table_bamboo: {
+    name: {
+      zhCN: '竹餐桌',
+    },
+  },
+  table_birch: {
+    name: {
+      zhCN: '白桦木餐桌',
+    },
+  },
+  table_cherry: {
+    name: {
+      zhCN: '樱花木餐桌',
+    },
+  },
+  table_crimson: {
+    name: {
+      zhCN: '绯红木餐桌',
+    },
+  },
+  table_dark_oak: {
+    name: {
+      zhCN: '深色橡木餐桌',
+    },
+  },
+  table_jungle: {
+    name: {
+      zhCN: '丛林木餐桌',
+    },
+  },
+  table_mangrove: {
+    name: {
+      zhCN: '红树木餐桌',
+    },
+  },
+  table_oak: {
+    name: {
+      zhCN: '橡木餐桌',
+    },
+  },
+  table_spruce: {
+    name: {
+      zhCN: '云杉木餐桌',
+    },
+  },
+  table_warped: {
+    name: {
+      zhCN: '诡异木餐桌',
+    },
+  },
   teapot: {
     name: {
       zhCN: '茶壶',
@@ -659,11 +1044,36 @@ export const itemMetaMap: Partial<Record<CanonicalItemName, ItemMeta>> = {
       zhCN: '番茄牛腩汤',
     },
   },
+  tomato_crop: {
+    name: {
+      zhCN: '番茄',
+    },
+  },
   tomato_seed: {
     name: {
       zhCN: '番茄种子',
     },
     category: 'seed',
+  },
+  transmutation_lunch_bag: {
+    name: {
+      zhCN: '嬗变饭袋',
+    },
+  },
+  transmutation_lunch_bag_has_items: {
+    name: {
+      zhCN: '装有食物的嬗变饭袋',
+    },
+  },
+  transmutation_lunch_bag_no_items: {
+    name: {
+      zhCN: '嬗变饭袋',
+    },
+  },
+  trash_can: {
+    name: {
+      zhCN: '垃圾桶',
+    },
   },
   tundra_style_sashimi: {
     name: {
