@@ -36,6 +36,12 @@ const zhNote = defineNoteConfig({
             prefix: '酒馆',
             items: [
                 '酒馆简介',
+                '葡萄种植',
+                '原料与榨汁',
+                '酿造',
+                '调酒',
+                '饮品图鉴',
+                '杂项',
             ],
         },
         {
