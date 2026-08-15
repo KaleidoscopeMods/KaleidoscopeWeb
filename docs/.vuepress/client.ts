@@ -5,6 +5,7 @@ import FoodPoints from './theme/components/FoodPoints.vue'
 import HealthPoints from './theme/components/HealthPoints.vue'
 import ItemAnimate from './theme/components/ItemAnimate.vue'
 import CraftingTable from './theme/components/CraftingTable.vue'
+import PonderPlayer from './theme/components/PonderPlayer.vue'
 // import RepoCard from 'vuepress-theme-plume/features/RepoCard.vue'
 // import NpmBadge from 'vuepress-theme-plume/features/NpmBadge.vue'
 // import NpmBadgeGroup from 'vuepress-theme-plume/features/NpmBadgeGroup.vue'
@@ -28,6 +29,7 @@ export default defineClientConfig({
     app.component('hp', HealthPoints)
     app.component('ItemAnimate', ItemAnimate)
     app.component('CraftingTable', CraftingTable)
+    app.component('Ponder', PonderPlayer)
     // app.component('CustomComponent', CustomComponent)
   },
   layouts: {
